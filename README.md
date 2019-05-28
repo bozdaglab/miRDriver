@@ -6,7 +6,7 @@ The order of running the code are as given below
 1. createTransGenePredictorFile.R (Helper file: createTransGenePredictorFileHelper.R)
 2. runLassoParallelForTransGene.R (Helper file: runLassoParallelForTransGeneHelper.R)
    
-Folder structure required (Given in attached zip files.)
+Folder structure required is shown below. Also created in miRDriver.
 
 OvarianLASSO, 
 OvarianLASSO\DATAFRAMES,
