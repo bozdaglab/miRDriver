@@ -1,8 +1,12 @@
 # miRDriver
 miRDriver identifies frequently aberrated regions using GISTIC and computes differentially expressed genes between the two patient groups as frequently aberrated group and not frequently aberrated group. Utilizing copy number aberration, DNA methylation, gene expression, transcription factor expression and miRNA expression datasets, miRDriver applies a LASSO-based method to select miRNAs-target gene interactions. We tested miRDriver on breast cancer and ovarian cancer data from the Cancer Genome Atlas (TCGA) database. 
 
+The order of running the code are as given below
 
-Folder structure required
+1. createTransGenePredictorFile.R (Helper file: createTransGenePredictorFileHelper.R)
+2. runLassoParallelForTransGene.R (Helper file: runLassoParallelForTransGeneHelper.R)
+   
+Folder structure required (Given in attached zip files.)
 
 OvarianLASSO, 
 OvarianLASSO\DATAFRAMES,
@@ -11,14 +15,6 @@ OvarianLASSO\gene_all_DEcis,
 OvarianLASSO\gene_all_mirna,
 OvarianLASSO\LassoMinCoeff,
 OvarianLASSO\PipeTransGeneDEPredFile,
-OvarianLASSO\RCODES,
-
-RCODES folders contains the following .R files
-
-createTransGenePredictorFile.R,
-createTransGenePredictorFileHelper.R,
-runLassoParallelForTransGeneHelper.R,
-runLassoParallelForTransGene.R,
 
 DATAFRAMES folder contains the following files
 OV_All_methylation.Rda (Sample Data),
