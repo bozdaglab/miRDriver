@@ -1,0 +1,18 @@
+Package: mirDriver
+Type: Package
+Title:  miRDriver: A Tool to Infer Copy Number Derived miRNA-Gene Networks in Cancer
+Version: 0.99.0
+Author: Banabithi Bose, Serdar Bozdag
+Maintainer: Banabithi Bose <banabithi.bose@marquette.edu>, Matt Moravec <matthew.moravec@marquette.edu>
+Description: Four phase package to find regulation micro RNA. The intermediate steps include finding gistic
+             regions, finding differentilly expressed genes, gathering cis genes for trans genes and selecting
+             potential micro RNA regulators.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: statmod, stringr, data.table, sqldf, reshape, reshape2, janitor, plyr, readr, glmnet, parallel,
+         edgeR, pbapply, Matrix, GenePattern, bedr, gsubfn, rJava, futile.logger, utils, matrixcalc, stats
+Depends: R (>= 3.6)
+VignetteBuilder: knitr
+Suggests: BiocStyle, knitr, rmarkdown
+biocViews: GeneRegulation, GO
