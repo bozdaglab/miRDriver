@@ -1,0 +1,41 @@
+export(
+  'getRegionWiseGistic1',
+  'getRegionWiseGistic2',
+  'getDifferentiallyExpressedGenes',
+  'makingCisAndTransGenes',
+  'gatherCisGenes',
+  'getTransGenePredictorFile',
+  'lassoParallelForTransGene'
+	);
+
+import(
+  'utils',
+  'stats',
+  'Matrix',
+  'rJava',
+  'bedr',
+  'stringr',
+  'parallel',
+  'sqldf',
+  'statmod',
+  'glmnet',
+  'gsubfn',
+  'GenePattern',
+  'futile.logger',
+  'matrixcalc',
+  'edgeR',
+  'data.table',
+  'plyr',
+  'readr',
+  'pbapply'
+	);
+importFrom("reshape", "cast", "colsplit.character", "colsplit.factor", "combine_factor", "condense.df", "expand.grid.df",
+           "funstofun", "melt.array", "melt.data.frame", "melt.matrix", "merge_all", "namerows",
+           "rescaler", "sort_df", "sparseby", "stamp", "uniquedefault", "untable")
+importFrom("reshape2", "acast", "add_margins", "colsplit", "recast")
+importFrom("janitor", "add_totals_col", "add_totals_row", "adorn_crosstab", "adorn_ns", "adorn_pct_formatting",
+           "adorn_percentages", "adorn_rounding", "adorn_title", "adorn_totals", "as_tabyl", "clean_names",
+           "compare_df_cols", "compare_df_cols_same", "convert_to_NA", "convert_to_date", "convert_to_datetime",
+           "crosstab", "describe_class", "excel_numeric_to_date", "get_dupes", "make_clean_names", "remove_constant",
+           "remove_empty", "remove_empty_cols", "remove_empty_rows", "round_half_up", "round_to_fraction",
+           "row_to_names", "signif_half_up", "tabyl", "top_levels", "untabyl", "use_first_valid_of")
