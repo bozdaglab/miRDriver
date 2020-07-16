@@ -1,18 +1,19 @@
-Package: mirDriver
+Package: miRDriver
 Type: Package
-Title:  miRDriver: A Tool to Infer Copy Number Derived miRNA-Gene Networks in Cancer
+Title: miRDriver: A Tool to Infer Copy Number Derived miRNA-Gene Networks in Cancer
 Version: 0.99.0
-Author: Banabithi Bose, Serdar Bozdag
-Maintainer: Banabithi Bose <banabithi.bose@marquette.edu>, Matt Moravec <matthew.moravec@marquette.edu>
-Description: Four phase package to find regulation micro RNA. The intermediate steps include finding gistic
+Authors@R: c(person("Banabithi", "Bose", email="banabithi.bose@marquette.edu", role=c("aut")), person("Serdar", "Bozdag", email="serdar.bozdag@marquette.edu", role="aut"),
+           person("Matthew", "Moravec", email="matt.moravec222@gmail.com", role = "cre"))
+Description: Four step package to find regulation micro RNA. The intermediate steps include finding gistic
              regions, finding differentilly expressed genes, gathering cis genes for trans genes and selecting
-             potential micro RNA regulators.
+             potential micro RNA regulators. These steps are designed to be part of the pipeline, but can be used
+             individually if it fits ones needs.
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: statmod, stringr, data.table, sqldf, reshape, reshape2, janitor, plyr, readr, glmnet, parallel,
-         edgeR, pbapply, Matrix, GenePattern, bedr, gsubfn, rJava, futile.logger, utils, matrixcalc, stats
-Depends: R (>= 3.6)
+Imports: bedr, data.table, filesstrings, parallel, sqldf, stringr, edgeR, stats, GenePattern, janitor,
+         glmnet, Matrix, reshape, reshape2, rJava, gsubfn, utils
+Depends: R (>= 4.1)
 VignetteBuilder: knitr
 Suggests: BiocStyle, knitr, rmarkdown
 biocViews: GeneRegulation, GO
