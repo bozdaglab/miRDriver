@@ -1,106 +1,130 @@
 ---
-title: 'mirDriver'
+title: "mirDriver"
 author: "Banabithi Bose, Matt Moravec,  Serdar Bozdag"
 date: "5/12/2020"
-output: html_document
-vignette: >
-  %\VignetteEngine{knitr::knitr}
-  %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{}
+output: rmarkdown::html_vignette
+r_packages: rmarkdown
+vignette: > 
+    %\VignetteIndexEntry{mirDriver} 
+    %\VignetteEngine{knitr} 
+    %\VignetteEncoding[UTF-8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 # Table of Contents
-  * [Introduction](#Introduction)
-  * [Example Data Sets](#Example-Data-Sets)
-    *[gistic bedfile](#gistic-bedfile)
-    *[mirna bedfile](#mirna-bedfile)
-    *[RNA seq count data](#RNA-seq-count-data)
-    *[ovary cnv masked data](#ovary-cnv-masked-data)
-    *[lesions file](#lesions-file)
-    *[genes coordinate bedfile](#genes-coordinate-bedfile)
-    *[hg38 gene coordinate bedfile](#hg38-genes-coordinate-bedfile)
-    *[CNVData](#CNVData)
-    *[mirnaData](#mirnaData)
-    *[RSeqData](#RSeqData)
-    *[TFData](#TFData)
-    *[methylationData](#methylationData)
-  * [Using the Functions](#Using-the-Functions)
-    * [getRegionWiseGistic1](#getRegionWiseGistic1)
-    * [getRegionWiseGistic2](#getRegionWiseGistic2)
-    * [getDifferentiallyExpressedGenes](#getDifferentiallyExpressedGenes)
-    * [makingCisAndTransGenes](#makingCisAndTransGenes)
-    * [gatherCisGenes](#gatherCisGenes)
-    * [getTransGenePredictorFile](#getTransGenePredictorFile)
-    * [lassoParallelForTransGene](#lassoParallelForTransGene)
-  * [Example Workflow Step 1](#Example-Workflow-Step-1)
-  * [Example Workflow Step 2](#Example-Workflow-Step-2)
-  * [Example Workflow Step 3](#Example-Workflow-Step-3)
-  * [Example Workflow Step 4](#Example-Workflow-Step-4)
-  * [Combined Example Workflow](#Combined-Example-Workflow)
-  * [Summary](#Summary)
-  * [Acknowledgements](#Acknowledgements)
-  
+    * [Introduction](#Introduction)
+    * [Example Data Sets](#Example-Data-Sets)
+        * [gistic bedfile](#gistic-bedfile)
+        * [mirna bedfile](#mirna-bedfile)
+        * [RNA seq count data](#RNA-seq-count-data)
+        * [ovary cnv masked data](#ovary-cnv-masked-data)
+        * [lesions file](#lesions-file)
+        * [genes coordinate bedfile](#genes-coordinate-bedfile)
+        * [hg38 gene coordinate bedfile](#hg38-genes-coordinate-bedfile)
+        * [CNVData](#CNVData)
+        * [mirnaData](#mirnaData)
+        * [RSeqData](#RSeqData)
+        * [TFData](#TFData)
+        * [methylationData](#methylationData)
+    * [Using the Functions](#Using-the-Functions)
+        * [getRegionWiseGistic1](#getRegionWiseGistic1)
+        * [getRegionWiseGistic2](#getRegionWiseGistic2)
+        * [getDifferentiallyExpressedGenes](#getDifferentiallyExpressedGenes)
+        * [makingCisAndTransGenes](#makingCisAndTransGenes)
+        * [gatherCisGenes](#gatherCisGenes)
+        * [getTransGenePredictorFile](#getTransGenePredictorFile)
+        * [lassoParallelForTransGene](#lassoParallelForTransGene)
+    * [Example Workflow Step 1](#Example-Workflow-Step-1)
+    * [Example Workflow Step 2](#Example-Workflow-Step-2)
+    * [Example Workflow Step 3](#Example-Workflow-Step-3)
+    * [Example Workflow Step 4](#Example-Workflow-Step-4)
+    * [Combined Example Workflow](#Combined-Example-Workflow)
+    * [Summary](#Summary)
+    * [Acknowledgements](#Acknowledgements)
+
 ## <a id = "Introduction"></a> Introduction
 
 The miRDriver package is a tool for infering copy number derived miRNA gene networks in cancer. This four step process allows the user to start with copy number variations to find the differentially expressed genes and miRNA that are associated with each trans gene. Then using the differentially expressed genes and miRNA run a lasso regression with factors of methylation, transcription factors, miRNA expression, RNA sequence, and copy number variation data to find which miRNA contribute significantly. The advantage to this tool over other tools that do the same thing is that miRDriver is more accurate compared to them.
 
+# Load miRDriver
+
+Loading the package will make it usable and check to make sure that all of the nessecary packages are also installed. 
+
+```{r}
+library("miRDriver");
+```
+
 ## <a id = "Example-Data-Sets"></a> Example Data Sets
-The example datasets are included on a github, https://github.com/bozdaglab/miRDriver-Datasets. All that are small enough are also included in the package. The following sections are to show what these data sets look like. 
+The example datasets are included on a github, https://github.com/bozdaglab/miRDriver-Datasets. All that are small enough are also included in the package. The following sections are to show what these data sets look like. Some included datasets are just examples of the entire datasets and can not be used to run in the code.
 ## <a id = "gistic-bedfile"></a> gistic bedfile
 
 ```{r}
-load("~/mirDriverFold/EXAMPLE_DATASETS/gistic_bedfile.rda")
-print(region[0:5,])
+load(system.file("extdata", "gistic_bedfile.rda", package="miRDriver"))
+print(region[1:3,1:4])
 ```
 
 ## <a id = "mirna-bedfile"></a> mirna bedfile
 ```{r}
-load("~/mirDriverFold/EXAMPLE_DATASETS/mirna_bedfile.Rda")
-print(mirna_bedfile[0:5,])
+load(system.file("extdata", "mirna_bedfile.Rda", package="miRDriver"))
+print(mirna_bedfile[1:3,1:3])
 ```
 
 ## <a id = "RNA-seq-count-data"></a> RNA seq count data
 ```{r}
-load("~/mirDriverFold/EXAMPLE_DATASETS/RnaSeq_count_data.Rda")
-print(RnaSeq_count_data[0:3,0:3])
+load(system.file("extdata", "RnaSeq_count_dataSmall.Rda", package="miRDriver"))
+print(RnaSeq_count_dataSmall)
 ```
 ## <a id = "ovary-cnv-masked-data"></a> ovary cnv masked data
 ```{r}
-x<-data.frame(read.csv("~/mirDriverFold/EXAMPLE_DATASETS/ovary_cnv_masked.txt"))
-print(x[0:5,])
+load(system.file("extdata", "CNVDataSmall.Rda", package="miRDriver"))
+print(CNVDataSmall)
 ```
 ## <a id = "lesions-file"></a> lesions file
 ```{r}
-y<-data.frame(read.csv("~/mirDriverFold/EXAMPLE_DATASETS/ovary_cnv_masked.txt"))
-print(y[0:5,])
+load(system.file("extdata", "allLesionsSmall.Rda", package="miRDriver"))
+print(allLesionsSmall)
 ```
 ## <a id = "genes-coordinate-bedfile"></a> genes coordinate bedfile
 ```{r}
-load("~/mirDriverFold/EXAMPLE_DATASETS/Genes_coord_bedfile.rda")
-print(Genes_coord[0:5,])
+load(system.file("extdata", "Genes_coord_bedfile.rda", package="miRDriver"))
+print(Genes_coord[1:10,1:4])
 ```
 ## <a id = "hg38-genes-coordinate-bedfile"></a> hg38 genes coordinate bedfile
 ```{r}
-load("~/mirDriverFold/EXAMPLE_DATASETS/hg38_genes_coord_bedfile.rda")
-print(Genes_coord[0:5,])
+##load("~/mirDriver/inst/extdata/hg38_genes_coord_bedfile.rda")
+
+load(system.file("extdata", "hg38_genes_coord_bedfile.rda", package="miRDriver"))
+
+print(Genes_coord[1:10,1:4])
 ```
 ## <a id = "CNVData"></a> CNVData
 ```{r}
-load("~/mirDriverFold/EXAMPLE_DATASETS/CNVData.Rda")
-print(CNVData[0:5,])
+load(system.file("extdata", "CNVDataSmall.Rda", package="miRDriver"))
+print(CNVDataSmall)
 ```
 
 ## <a id = "mirnaData"></a> mirnaData
-
+```{r}
+load(system.file("extdata", "mirnaData.Rda", package="miRDriver"))
+print(mirnaData[1:10,1:10])
+```
 ## <a id = "RSeqData"></a> RSeqData
-
+```{r}
+load(system.file("extdata", "RSeqData.Rda", package="miRDriver"))
+print(RSeqDataSmall)
+```
 ## <a id = "TFData"></a> TFData
-
+```{r}
+load(system.file("extdata", "TFData.Rda", package="miRDriver"))
+print(TFData[1:10,1:2])
+```
 ## <a id = "methylationData"></a> methylationData
-
+```{r}
+load(system.file("extdata", "methylationDataSmall.Rda", package="miRDriver"))
+print(methylationDataSmall)
+```
 
 ## <a id = "Using-the-Functions"></a> Using the Functions
 
@@ -114,75 +138,100 @@ print(CNVData[0:5,])
 
 The functions make up the functionality of the four steps. Some are used in conjunction to complete a step while others perform the entire step by themselves.
 
-# Load miRDriver
-
-Loading the package will make it usable and check to make sure that all of the nessecary packages are also installed. 
-
-```{r}
-library(mirDriver)
-```
 
 ## <a id = "getRegionWiseGistic1"></a> getRegionWiseGistic1
 
 This function runs the GISTIC2.0 module on GenePattern.com and then uses the lesions file that the module returns and produces the peak wise files. In order to successfully run the GISTIC2.0 module on GenePattern.com one must upload their segmentation file to GenePattern.com and then provide the entire url as the argument. The humanGene argument options are those on GenePattern.com. For the argument one should only provide the file name. The username and password are ones username and password for GenePattern.com, GenePattern.com accounts are free to create. The last argument is gistic_bedfile and is a logic value for whether or not one would like to produce a gistic bedfile from this function. This function only allows for bare bones usage of the gistic2.0 module. To use more indepth features and to be more exact with genepattern one should use their website Genepattern.com. On the website on can run the gistic module with every availiable setting and the download the results. This function does not specificy all of the settings that we used with our expirament and data. These are -genegistic 1 -smallmem 1 -broad 1 -brlen 0.5 -conf 0.90 -armpeel 1 -savegene 1 -gcm extreme.
 
-```{r}
+Arguments:
+humanGene - a character string that is a link to a matlab file for the humanGene link              of choice
+copyNumber - a character string that represents a link to a copy number text file                   stored in user's Genepattern account
+conf.lev - a double value that represents the confidence level of GISTIC 2.0
+username - a character string that is the username to user's Genepattern account
+password - a character string that is the password to user's Genepattern account
+gistic_bedfile - a logic value of  either true or false representing whether or not one                  wants to produce a bedfile from GISTIC 2.0 output
+
+
 humanGene<- "Human_Hg38.UCSC.add_miR.160920.refgene.mat"
 copyNumber<- "https://cloud.genepattern.org/gp/users/miRDriver/ovary_brca_cnv_masked.txt"
 conf.lev<-0.90
 username <- "miRDriver"
 password <- "1234"
 getRegionWiseGistic1(humanGene, copyNumber,conf.lev,username, password,gistic_bedfile=TRUE)
-```
+
 
 ## <a id = "getRegionWiseGistic2"></a> getRegionWiseGistic2
 
 This function will find the peak wise files based on a gistic file provided by the user. This can be produced on GenePattern.com manually or by other means. The other argument is a logic value for whether or not the user wants to produce a bedfile from this function.
 
-```{r}
+Arguments:
+gisticfile - a character string for the memory location of the gistic file or                       amplification
+gistic_bedfile - a logical value for whether or not one wants a gistic_bedfile
+
+
 gisticfile<-"~/mirDriverFold/EXAMPLE_DATASETS/all_lesions.conf_90.txt"
 getRegionWiseGistic2(gisticfile=gisticfile,gistic_bedfile=TRUE)
-```
+
 
 ## <a id = "getDifferentiallyExpressedGenes"></a> getDifferentiallyExpressedGenes
 
 This function finds the differentially expressed genes based off of peak wise files and RNA sequence count data. This function can be run in parallel or on one core. The first argument one specifies the number of cores one wants to use, the second argument is for the RNA sequence count data, and the third is a logic value for whether or not one wants to run the code in parallel. The peakwise files should be in the correct folder to be used with the code,  "~/mirDriver/miRDriver_Step1/Regoinwise_Gistic_Files". 
 
-```{r}
+Arguments:
+ncore - assuming parallel core use, an integer value for the number of cores user wants         to use
+RNAcount - a R dataframe of RNA seq count
+parallel - a logic value for whether or not one wants to run the code in parallel, if             one is running this code on windows then parallel must be false 
+
 ncore<- 65
 load("~/mirDriverFold/EXAMPLE_DATASETS/RnaSeq_count_data.Rda")
 getDifferentiallyExpressedGenes(ncore, RNACount=RnaSeq_count_data,parallel = TRUE)
-```
+
 
 ## <a id = "makingTransAndCisGenes"></a> makingTransAndCisGenes
 
 
 This function makes all of the trans and cis genes for the differentially expressed genes. The input to this function is a gene coordinate bedfile and a gistic bedfile. A bedfile is a dataframe that includes the chromosome, start, end and peak for each gene. 
+Arguments:
+Genes_coord_bedfile - A dataframe that fits the format of a bedfile for gene                                 coordinates
+gistic_bedfile - A dataframe that fits the format of a bedfile for the gistic results                   with amplification/deletion peaks with patients
 
-```{r}
+
 load("~/mirDriverFold/EXAMPLE_DATASETS/hg38_genes_coord_bedfile.rda")
 load("~/mirDriverFold/EXAMPLE_DATASETS/gistic_bedfile.rda")
 makingCisAndTransGenes(Genes_coord_bedfile=Genes_coord, gistic_bedfile=region)
-```
+
 
 ## <a id = "gatherCisGenes"></a> gatherCisGenes
 
 
 This function gathers all of the cis genes for each trans gene. The inputs, gistic bedfile and miRNA, are used to collect of the miRNA and differentially expressed genes.
 
-```{r}
+Arguments:
+ncores - Assuming parallel, and integer value that represents the number of cores that          the user wants to use
+mirna_bedfile - A dataframe in the format of a bedfile for all of the micro RNA
+gistic_bedfile - A dataframe in the format of a bedfile for the gistic results
+parallel - A logic value for whether or not one wants to run the code in parallel, if             running code on windows, must be false
+
 load("~/mirDriverFold/EXAMPLE_DATASETS/mirna_bedfile.Rda")
 load("~/mirDriverFold/EXAMPLE_DATASETS/gistic_bedfile.rda")
 ncores<- 65
 gatherCisGenes(ncores,mirna_bedfile=mirna_bedfile,gistic_bedfile=region,parallel=TRUE)
-```
+
 
 ## <a id = "getTransGenePredictorFile"></a> getTransGenePredictorFile
 
 
 This function creates the trans gene predictor file which is a dataframe with all of the contributors to the expression including methylation data, RNA sequence data, copy number varaition data, transcription factor data and mirna data. This function can be run in parallel or on a single core depending on user preference and machine capabilities.
 
-```{r}
+Arguments:
+ncores - assuming parallel use, the number of cores the user wants to use
+methylationData - a dataframe for the methylation data
+RSeqData - a dataframe for the RNA sequence data
+CNVData - a dataframe for the copy number varation data
+TFData - a dataframe for the transcription factor data
+mirnaData - a dataframe for the mirna data
+parallel - a logic value for whether or not the user wants to run the code in parallel,            if running the code on windows, must be false
+
 ncores<- 65
 load("~/mirDriverFold/EXAMPLE_DATASETS/methylationData.Rda")
 load("~/mirDriverFold/EXAMPLE_DATASETS/RSeqData.Rda")
@@ -190,19 +239,25 @@ load("~/mirDriverFold/EXAMPLE_DATASETS/CNVData.Rda")
 load("~/mirDriverFold/EXAMPLE_DATASETS/TFData.Rda")
 load("~/mirDriverFold/EXAMPLE_DATASETS/mirnaData.Rda")
 getTransGenePredictorFile(ncores, methylationData, RSeqData, CNVData, TFData, mirnaData,parallel = TRUE)
-```
+
 
 ## <a id = "lassoParallelForTransGene"></a> lassoParallelForTransGene
 
 This function runs a lasso regression to find what contributes to the expression of the trans gene. This type of regression eliminate non-contributors by settting their coefficient to zero. If the coeffiecient of a miRNA is non-zero after the regression finishes then it is a contributor. However, to be accurate the regression is set to run multiple times (the user specifies as an argument), with a certain percentage of times needed with the coefficient to be non-zero. (the user specifies this as an argument as well). The user also needs to provide the number of folds they want their regression to use.
 
-```{r}
+Arguments:
+ncores - assuming the code in run in parallel, an integer for the number of cores one wants to use
+Nfolds - an integer for the number of times the lasso regression is run
+numCounter - an integer for the number of folds one wants for their lasso regression
+nonZeroPercent - an integer for the percentage of appearance as a non-zero LASSO                        coefficient for a mirna to be selected
+parallel - a logic value for whether or not the user wants to run the code in parallel,            if the code is run on windows, must be false
+
 ncores=65
 Nfolds<-3
 numCounter = 20 
 nonZeroPercent = 10 
 x<-lassoParallelForTransGene(ncores = 70,numCounter = 3,Nfolds = 3,nonZeroPercent = 10,parallel = TRUE)
-```
+
 
 ## <a id = "Example-Workflow-Step-1"></a> Example Workflow Step 1
 
@@ -299,9 +354,4 @@ This package is designed to Infer Copy Number Derived miRNA-Gene Networks in Can
 
 ## <a id = "Acknowledgements"></a> Acknowledgements
 
-Unsure of what acknowledgements need to be made.
-
-
-
-
-
+This work was supported by the National Institute OF General Medical Sciences of the National Institutes of Health under Award Number R35GM133657.
