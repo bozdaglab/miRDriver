@@ -4,10 +4,9 @@ Title: miRDriver: A Tool to Infer Copy Number Derived miRNA-Gene Networks in Can
 Version: 0.99.0
 Authors@R: c(person("Banabithi", "Bose", email="banabithi.bose@marquette.edu", role=c("aut")), person("Serdar", "Bozdag", email="serdar.bozdag@marquette.edu", role="aut"),
            person("Matthew", "Moravec", email="matt.moravec222@gmail.com", role = "cre"))
-Description: Four step package to find regulation micro RNA. The intermediate steps include finding gistic
-             regions, finding differentilly expressed genes, gathering cis genes for trans genes and selecting
-             potential micro RNA regulators. These steps are designed to be part of the pipeline, but can be used
-             individually if it fits ones needs.
+Description: miRDriver identifies frequently aberrated regions using GISTIC and computes differentially expressed genes between the two patient groups as 
+             frequently aberrated group and non-aberrated group. Utilizing copy number aberration, DNA methylation, gene expression, transcription factor expression and 
+             miRNA expression datasets, miRDriver applies a LASSO-based method to select miRNA-target gene interactions.
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
