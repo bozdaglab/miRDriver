@@ -4,7 +4,7 @@ Title: miRDriver: A Tool to Infer Copy Number Derived miRNA-Gene Networks in Can
 Version: 0.99.0
 Authors@R: c(person("Banabithi", "Bose", email="banabithi.bose@marquette.edu", role=c("aut")), person("Serdar", "Bozdag", email="serdar.bozdag@marquette.edu", role="aut"),
            person("Matthew", "Moravec", email="matt.moravec222@gmail.com", role = "cre"))
-Description: miRDriver identifies frequently aberrated regions using GISTIC and computes differentially expressed genes between the two patient groups as 
+Description: The miRDriver package is designed for easy use and implementaion. It identifies frequently aberrated regions using GISTIC and computes differentially expressed genes between the two patient groups as 
              frequently aberrated group and non-aberrated group. Utilizing copy number aberration, DNA methylation, gene expression, transcription factor expression and 
              miRNA expression datasets, miRDriver applies a LASSO-based method to select miRNA-target gene interactions.
 License: file LICENSE
@@ -15,4 +15,4 @@ Imports: bedr, data.table, filesstrings, parallel, sqldf, stringr, edgeR, stats,
 Depends: R (>= 4.1)
 VignetteBuilder: knitr
 Suggests: BiocStyle, knitr, rmarkdown
-biocViews: GeneRegulation, GO
+biocViews: GeneRegulation, GO, GeneExpression, Transcription, GeneTarget
