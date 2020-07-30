@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1596124187819.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B3FF0A74",
+    "lastKnownWriteTime" : 1596124348,
+    "last_content_update" : 1596124348369,
+    "path" : "~/miRDriver/R/getRegionWiseGistic_FINAL_03.R",
+    "project_path" : "R/getRegionWiseGistic_FINAL_03.R",
+    "properties" : {
+        "cursorPosition" : "4,19",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
