@@ -1,7 +1,7 @@
 Package: miRDriver
 Type: Package
 Title: miRDriver: A Tool to Infer Copy Number Derived miRNA-Gene Networks in Cancer
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: c(person("Banabithi", "Bose", email="banabithi.bose@marquette.edu", role=c("aut")), person("Serdar", "Bozdag", email="serdar.bozdag@marquette.edu", role="aut"),
            person("Matthew", "Moravec", email="matt.moravec222@gmail.com", role = "cre"))
 Description: The miRDriver package is designed for easy use and implementaion. It identifies frequently aberrated regions using GISTIC and computes differentially expressed genes between the two patient groups as 
