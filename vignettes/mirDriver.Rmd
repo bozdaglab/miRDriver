@@ -127,8 +127,7 @@ print(methylationDataSmall)
 
 ## <a id = "Using-the-Functions"></a> Using the Functions
 
-* getRegionWiseGistic1
-* getRegionWiseGistic2
+* getRegionWiseGistic
 * getDifferentiallyExpressedGenes
 * makingCisAndTransGenes
 * gatherCisGenes
@@ -141,7 +140,8 @@ The functions make up the functionality of the four steps. Some are used in conj
 
 ## <a id = "getRegionWiseGistic"></a> getRegionWiseGistic
 
-This function will find the peak wise files based on a gistic file provided by the user. This can be produced on GenePattern.com manually or by other means. The other argument is a logic value for whether or not the user wants to produce a bedfile from this function.
+This function will find the peak wise files based on a gistic file provided by the user. This can be produced on GenePattern.com manually or by other means. The other argument is a logic value for whether or not the user wants to produce a bedfile from this function. To compute the gistic file one can use the gistic2.0 module on Genepattern.com. The link is, https://cloud.genepattern.org/gp/pages/index.jsf?lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00125:6.15.28 .
+
 
 Arguments:
 gisticfile - a character string for the memory location of the gistic file or                       amplification
