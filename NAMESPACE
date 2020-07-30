@@ -1,6 +1,5 @@
 export(
-    'getRegionWiseGistic1',
-    'getRegionWiseGistic2',
+    'getRegionWiseGistic',
     'getDifferentiallyExpressedGenes',
     'makingCisAndTransGenes',
     'gatherCisGenes',
