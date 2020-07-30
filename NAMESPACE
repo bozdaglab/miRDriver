@@ -17,7 +17,6 @@ import('bedr',
     'edgeR',
     'glmnet',
     'Matrix',
-    'rJava',
     'gsubfn'
 );
 importFrom("filesstrings", "file.move")
