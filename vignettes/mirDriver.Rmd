@@ -29,8 +29,7 @@ knitr::opts_chunk$set(echo = TRUE)
         * [TFData](#TFData)
         * [methylationData](#methylationData)
     * [Using the Functions](#Using-the-Functions)
-        * [getRegionWiseGistic1](#getRegionWiseGistic1)
-        * [getRegionWiseGistic2](#getRegionWiseGistic2)
+        * [getRegionWiseGistic](#getRegionWiseGistic)
         * [getDifferentiallyExpressedGenes](#getDifferentiallyExpressedGenes)
         * [makingCisAndTransGenes](#makingCisAndTransGenes)
         * [gatherCisGenes](#gatherCisGenes)
@@ -139,28 +138,8 @@ print(methylationDataSmall)
 The functions make up the functionality of the four steps. Some are used in conjunction to complete a step while others perform the entire step by themselves.
 
 
-## <a id = "getRegionWiseGistic1"></a> getRegionWiseGistic1
 
-This function runs the GISTIC2.0 module on GenePattern.com and then uses the lesions file that the module returns and produces the peak wise files. In order to successfully run the GISTIC2.0 module on GenePattern.com one must upload their segmentation file to GenePattern.com and then provide the entire url as the argument. The humanGene argument options are those on GenePattern.com. For the argument one should only provide the file name. The username and password are ones username and password for GenePattern.com, GenePattern.com accounts are free to create. The last argument is gistic_bedfile and is a logic value for whether or not one would like to produce a gistic bedfile from this function. This function only allows for bare bones usage of the gistic2.0 module. To use more indepth features and to be more exact with genepattern one should use their website Genepattern.com. On the website on can run the gistic module with every availiable setting and the download the results. This function does not specificy all of the settings that we used with our expirament and data. These are -genegistic 1 -smallmem 1 -broad 1 -brlen 0.5 -conf 0.90 -armpeel 1 -savegene 1 -gcm extreme.
-
-Arguments:
-humanGene - a character string that is a link to a matlab file for the humanGene link              of choice
-copyNumber - a character string that represents a link to a copy number text file                   stored in user's Genepattern account
-conf.lev - a double value that represents the confidence level of GISTIC 2.0
-username - a character string that is the username to user's Genepattern account
-password - a character string that is the password to user's Genepattern account
-gistic_bedfile - a logic value of  either true or false representing whether or not one                  wants to produce a bedfile from GISTIC 2.0 output
-
-
-humanGene<- "Human_Hg38.UCSC.add_miR.160920.refgene.mat"
-copyNumber<- "https://cloud.genepattern.org/gp/users/miRDriver/ovary_brca_cnv_masked.txt"
-conf.lev<-0.90
-username <- "miRDriver"
-password <- "1234"
-getRegionWiseGistic1(humanGene, copyNumber,conf.lev,username, password,gistic_bedfile=TRUE)
-
-
-## <a id = "getRegionWiseGistic2"></a> getRegionWiseGistic2
+## <a id = "getRegionWiseGistic"></a> getRegionWiseGistic
 
 This function will find the peak wise files based on a gistic file provided by the user. This can be produced on GenePattern.com manually or by other means. The other argument is a logic value for whether or not the user wants to produce a bedfile from this function.
 
@@ -170,7 +149,7 @@ gistic_bedfile - a logical value for whether or not one wants a gistic_bedfile
 
 
 gisticfile<-"~/mirDriverFold/EXAMPLE_DATASETS/all_lesions.conf_90.txt"
-getRegionWiseGistic2(gisticfile=gisticfile,gistic_bedfile=TRUE)
+getRegionWiseGistic(gisticfile=gisticfile,gistic_bedfile=TRUE)
 
 
 ## <a id = "getDifferentiallyExpressedGenes"></a> getDifferentiallyExpressedGenes
