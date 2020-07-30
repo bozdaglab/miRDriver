@@ -1,13 +1,13 @@
-\name{getRegionWiseGistic2}
-\alias{getRegionWiseGistic2}
+\name{getRegionWiseGistic}
+\alias{getRegionWiseGistic}
 \title{
 produce regionwise Gistic files i.e. peak wise files
 }
 \description{
-getRegionWiseGistic2 will produce regionwise Gistic files i.e. aberration peak wise files
+getRegionWiseGistic will produce regionwise Gistic files i.e. aberration peak wise files
 }
 \usage{
-getRegionWiseGistic2(gisticfile,gistic_bedfile)
+getRegionWiseGistic(gisticfile,gistic_bedfile)
 }
 \arguments{
     \item{gisticfile}{
