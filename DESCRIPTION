@@ -10,7 +10,7 @@ Description: The miRDriver package is designed for easy use and implementaion. I
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: bedr, data.table, filesstrings, parallel, sqldf, stringr, edgeR, stats, GenePattern, janitor,
+Imports: bedr, data.table, filesstrings, parallel, sqldf, stringr, edgeR, stats, janitor,
          glmnet, Matrix, reshape, reshape2, rJava, gsubfn, utils
 Depends: R (>= 4.0)
 VignetteBuilder: knitr
