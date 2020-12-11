@@ -18,3 +18,5 @@ Depends: R (>= 3.6)
 VignetteBuilder: knitr
 Suggests: BiocStyle, knitr, rmarkdown
 biocViews: GeneRegulation, GO, GeneExpression, Transcription, GeneTarget
+SystemRequirements: Preferred genomic operations engine: 'BEDTools',
+        'BEDOPS' and 'Tabix (>= 1.3)'.
