@@ -4,11 +4,11 @@
 Creation of the trans gene predictor file
 }
 \description{
-This function creates the trans gene predictor file which is a dataframe with all of the contributors to the expression including methylation data, RNA sequence data, copy number varaition data, transcription factor data and mirna data.
+This function creates a TransGenePredictorFile for each trans gene based on the mirna and DEcis files from the output of the gatherCisGenes function and the user provided dataframes methylationData, RSeqData, CNVData, TFData, mirnaData. The five dataframes needed for this function are described in the example datasets section. The TransGenePredictorFiles will contain information about the possible predictors for each patient based on the data provided. The TransGenePredictorFiles will be saved in the file path ~/mirdirectory/mirDriverFold;miRDriver_Step4/TransGenePredFile/. As always mirdirectory in the file path represents the mirdirectory chosen for the analysis and should be the same as the mirdirectory used in all previous functions.
 }
 \usage{
 getTransGenePredictorFile(ncores=2, methylationData, RSeqData, CNVData, 
-TFData,mirnaData,parallel=c('TRUE','FALSE'))
+TFData,mirnaData,parallel=c('TRUE','FALSE'), mirdirectory = "~/")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,8 +25,9 @@ a dataframe for the transcription factor data
 } \item{mirnaData}{
 a dataframe for the mirna data
 } \item{parallel}{
-a logic value for whether or not the user wants to run the code in parallel, if running the code on windows, must be false
-}
+a logic value for whether or not the user wants to run the code in parallel
+}\item{mirdirectory}{
+a character string for the file path of the directory one wants the results in}
 }
 \author{
 Banabithi Bose
@@ -42,8 +43,7 @@ print("This function creates the trans gene predictor file.")
 ##load("~/mirDriverFold/EXAMPLE_DATASETS/TFData.Rda")
 ##load("~/mirDriverFold/EXAMPLE_DATASETS/mirnaData.Rda")
 ##getTransGenePredictorFile(ncores, methylationData, RSeqData, CNVData,TFData,mirnaData      
-## ,(parallel = TRUE))
-
+## ,(parallel = TRUE), mirdirectory="~/")
 }\value{
 Returns nothing
 }
