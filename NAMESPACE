@@ -19,6 +19,8 @@ import('bedr',
     'Matrix',
     'gsubfn'
 );
+importFrom('methods', 'is')
+importFrom('SummarizedExperiment', 'assay')
 importFrom("filesstrings", "file.move")
 importFrom("reshape", 
     "cast", 
