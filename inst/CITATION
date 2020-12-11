@@ -1,0 +1,8 @@
+citEntry(entry="Article",
+  author = "B. Bose, S. Bozdag",
+  title = " miRDriver: A tool to infer copy number derived miRNA-Gene networks in cancer",
+  journal = "10th ACM International Conference on Bioinformatics, Computational Biology and Health Informatics",
+  year = "2019",
+  pages = "366-375",
+  textVersion = "Bose, B., & Bozdag, S. (2019). miRDriver: A tool to infer copy number derived miRNA-Gene networks in cancer. In Proceedings of the 10th ACM International Conference on Bioinformatics, Computational Biology and Health Informatics (pp. 366–375). New York, NY, USA: ACM"
+)
