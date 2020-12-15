@@ -46,8 +46,22 @@ makingCisAndTransGenes <-function(Genes_coord_bedfile, gistic_bedfile, mirdirect
         if (nrow(Region) == 0) {
             #print("this gistic region is not valid")
         } else {
-            Region <- bedr.sort.region(Region, check.chr = FALSE, verbose = FALSE)
-            Gistic_Genes <-bedr.join.region(Genes_coord_bedfile,Region,report.n.overlap = TRUE,check.chr = FALSE, verbose = FALSE)
+            ##New join code
+            Region$strand<-"+"
+            Region<-Region[,c(1,5,2,3,4)]
+            Region$chr<-paste0("chr", Region$chr)
+            colnames(Region)<-c("seqnames", "strand", "start", "end", "peak")
+            query<-Region%>%as_granges()
+            
+            Genes_coord_bedfile$strand<-"+"
+            Genes_coord_bedfile<-Genes_coord_bedfile[,c(1,5,2,3,4)]
+            Genes_coord_bedfile$chr<-paste0("chr", Genes_coord_bedfile$chr)
+            colnames(Genes_coord_bedfile)<-c("seqnames", "strand", "start", "end", "gene")
+            subject<-Genes_coord_bedfile%>%as_granges()
+            intersect_rng <- join_overlap_intersect(query, subject)
+            Gistic_Genes<-as.data.frame(intersect_rng)
+            ##end new join code
+            
             cis_genes <-data.frame(Gistic_Genes$gene)
             if (nrow(cis_genes) == 0) {
                 #print("This region has no cis genes")

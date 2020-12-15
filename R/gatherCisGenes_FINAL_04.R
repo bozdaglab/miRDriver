@@ -77,7 +77,6 @@ gatherCisGenes <-function(ncores = 2,mirna_bedfile,gistic_bedfile,parallel = c('
                 invisible(clusterEvalQ(cl, library(reshape)))
                 invisible(clusterEvalQ(cl, library(reshape2)))
                 invisible(clusterEvalQ(cl, library(pbapply)))
-                invisible(clusterEvalQ(cl, library(bedr)))
                 clusterExport(cl = cl, "processGeneFiles", envir = environment())
                 ###### MAIN PROGRAM############################################################
                 fileNames <-list.files(paste0(mirdirectory,"/mirDriverFold/miRDriver_Step2/Trans_Cis_Files/"))
@@ -168,7 +167,6 @@ gatherCisGenes <-function(ncores = 2,mirna_bedfile,gistic_bedfile,parallel = c('
                 invisible(clusterEvalQ(cl, library(reshape)))
                 invisible(clusterEvalQ(cl, library(reshape2)))
                 invisible(clusterEvalQ(cl, library(pbapply)))
-                invisible(clusterEvalQ(cl, library(bedr)))
                 clusterExport(cl = cl, "processGM", envir = environment())
                 ### MAIN FUNCTION###
                 GeneFileList <-list.files(paste0(mirdirectory,"/mirDriverFold/miRDriver_Step3/DE_GCIS"))
@@ -184,24 +182,36 @@ gatherCisGenes <-function(ncores = 2,mirna_bedfile,gistic_bedfile,parallel = c('
         ##This code is for merging TCGA mirna expression data with Gistic regions to get miRNAs
         ##Using Gistic region bed file
         #print("code 4 starts")
-        if (gistic_bedfile == FALSE) {
+        if ((gistic_bedfile == FALSE) [1,1]) {
                 load(paste0(mirdirectory,"/mirDriverFold/EXAMPLE_DATASETS/gistic_bedfile.rda"))
-                #region$chr <- paste0("chr", region$chr)
-                region <- bedr.merge.region(region, verbose = FALSE)
-                region <- bedr.sort.region(region, verbose = FALSE)
         } else{
                 region <- gistic_bedfile
-                #region$chr <- paste0("chr", region$chr)
-                region <- bedr.merge.region(region, verbose = FALSE)
-                region <- bedr.sort.region(region, verbose = FALSE)
         }
-        mirna_bedfile <- bedr.sort.region(mirna_bedfile, verbose = FALSE)
-        overlapping_pairs <- bedr.join.region(mirna_bedfile,region,report.n.overlap = TRUE,check.chr = FALSE, verbose = FALSE)
-        colnames(overlapping_pairs) <- c('miRNA.CHROM','miRNA.POS','miRNA.END','miRNA','region.CHROM','region.POS','region.END','region.PEAK','Overlap')
-        ########  making files with mirnas for each gistic regions
+        #new bedr replacement
+        region$strand<-"+"
+        region<-region[,c(1,5,2,3,4)]
+        region$chr<-paste0("chr", region$chr)
+        colnames(region)<-c("seqnames", "strand", "start", "end", "peak")
+        query<-region%>%as_granges()
+        
+        
+        mirna_bedfile$strand<-"+"
+        mirna_bedfile<-mirna_bedfile[,c(1,5,2,3,4)]
+        mirna_bedfile$chr<-paste0("chr", mirna_bedfile$chr)
+        colnames(mirna_bedfile)<-c("seqnames", "strand", "start", "end", "mirna")
+        subject<-mirna_bedfile%>%as_granges()
+        intersect_rng <- join_overlap_intersect(query, subject)
+        overlapping_pairs <-as.data.frame(intersect_rng)
+        #end
+        
+        overlapping_pairs<-overlapping_pairs[,c(6,7)]
+        colnames(overlapping_pairs)<-c("region.PEAK", "mirna")
+        
         z <-data.table(str_split_fixed(overlapping_pairs$region.PEAK, ",", 2))
         overlapping_pairs$region.PEAK <- z$V1
-        colnames(overlapping_pairs) <- c('miCHROM','miPOS','miEND','miRNA','regionCHROM','regionPOS','regionEND','regionPEAK','Overlap')
+        colnames(overlapping_pairs)<-c("regionPEAK", "miRNA")
+        
+        ########  making files with mirnas for each gistic regions
         mirna_in_gistic_region <-unique(sqldf("SELECT regionPEAK, miRNA from overlapping_pairs order by 1"))
         for (i in seq_len(nrow(mirna_in_gistic_region)))
         {
@@ -313,7 +323,6 @@ gatherCisGenes <-function(ncores = 2,mirna_bedfile,gistic_bedfile,parallel = c('
                 clusterEvalQ(cl, library(reshape))
                 clusterEvalQ(cl, library(reshape2))
                 clusterEvalQ(cl, library(pbapply))
-                clusterEvalQ(cl, library(bedr))
                 clusterExport(cl = cl, "processGM", envir = environment())
                 ########### MAIN FUNCTION######################
                 GeneFileList <-list.files(paste0(mirdirectory,"mirDriverFold/miRDriver_Step3/GMIRNA"))
