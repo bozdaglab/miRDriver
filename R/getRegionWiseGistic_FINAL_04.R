@@ -45,8 +45,7 @@ getRegionWiseGistic <-function(gisticfile,gistic_bedfile = c('TRUE', 'FALSE'),mi
             Gistic_Bedfile$end <- as.integer(Gistic_Bedfile$end)
             Gistic_Bedfile <- na.omit(Gistic_Bedfile)
             Gistic_Bedfile <-data.frame(Gistic_Bedfile)
-            region <- bedr.sort.region(Gistic_Bedfile, verbose = FALSE)
-            is.valid.region(region, verbose = FALSE)
+            region<-Gistic_Bedfile
             save(region, file = paste0(mirdirectory,"/mirDriverFold/miRDriver_Step1/GisticResults/gistic_bedfile.rda"))
         }
         if (gistic_bedfile == FALSE) {

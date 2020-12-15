@@ -7,7 +7,7 @@ export(
     'lassoParallelForTransGene'
 );
 
-import('bedr',
+import('plyranges',
     'stats',
     'data.table',
     'utils',
