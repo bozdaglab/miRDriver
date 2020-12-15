@@ -19,7 +19,7 @@ import('stats',
     'gsubfn',
     'statmod'
 );
-importFrom('GenomicRanges', 'GRanges-class')
+importFrom('GenomicRanges', 'GRanges')
 importFrom('plyranges', 'as_granges', 'join_overlap_intersect')
 importFrom('methods', 'is')
 importFrom('SummarizedExperiment', 'assay')
