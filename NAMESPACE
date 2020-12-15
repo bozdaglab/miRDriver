@@ -16,8 +16,10 @@ import('stats',
     'edgeR',
     'glmnet',
     'Matrix',
-    'gsubfn'
+    'gsubfn',
+    'statmod'
 );
+importFrom('GenomicRanges', 'GRanges-class')
 importFrom('plyranges', 'as_granges', 'join_overlap_intersect')
 importFrom('methods', 'is')
 importFrom('SummarizedExperiment', 'assay')
