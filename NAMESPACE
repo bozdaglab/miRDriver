@@ -17,7 +17,8 @@ import('stats',
     'glmnet',
     'Matrix',
     'gsubfn',
-    'statmod'
+    'statmod',
+    'qpdf'
 );
 importFrom('GenomicRanges', 'GRanges')
 importFrom('plyranges', 'as_granges', 'join_overlap_intersect')

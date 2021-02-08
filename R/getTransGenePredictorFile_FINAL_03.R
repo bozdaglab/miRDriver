@@ -57,11 +57,15 @@ getTransGenePredictorFile <-function(ncores = 2,methylationData,RSeqData,CNVData
             mirna$miRNA <- as.character(mirna$miRNA)
             common <- intersect(GM$miRNA_ID, mirna$miRNA)
             GeneMirnaData <- MG[, ..common]
+            #GeneMirnaData <- MG[, common]
+            
             if (nrow(GeneMirnaData) == 0) {
                 #print(paste0(GeneFile, " no mirna, LASSO will not run for this trans gene"))
             } else
             {
                 GeneMirnaData <- cbind(MG[, 1, drop = FALSE], MG[, ..common])
+                #GeneMirnaData <- cbind(MG[, 1, drop = FALSE], MG[, common])
+                
                 MG<-data.table(MG)
                 #MG<-data.frame(MG)
                 GeneMirnaData1 <- MG[, ..common]

@@ -13,7 +13,8 @@ License: file LICENSE
 Encoding: UTF-8
 LazyData: false
 Imports: data.table, filesstrings, parallel, sqldf, stringr, edgeR, stats, janitor, statmod,
-         glmnet, Matrix, reshape, reshape2, gsubfn, utils, SummarizedExperiment, methods, plyranges, GenomicRanges
+         glmnet, Matrix, reshape, reshape2, gsubfn, utils, SummarizedExperiment, methods, plyranges, 
+         GenomicRanges, qpdf
 Depends: R (>= 4.1)
 VignetteBuilder: knitr
 Suggests: BiocStyle, knitr, rmarkdown

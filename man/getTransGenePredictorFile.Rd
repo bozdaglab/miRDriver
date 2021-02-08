@@ -35,15 +35,16 @@ Banabithi Bose
 \examples{
 print("This function creates the trans gene predictor file.")
 ##The following code is a valid example of how to use the function but is commented as it
-##takes a very long time to run
-##ncores<- 2
-##load("~/mirDriverFold/EXAMPLE_DATASETS/methylationData.Rda")
-##load("~/mirDriverFold/EXAMPLE_DATASETS/RSeqData.Rda")
-##load("~/mirDriverFold/EXAMPLE_DATASETS/CNVData.Rda")
-##load("~/mirDriverFold/EXAMPLE_DATASETS/TFData.Rda")
-##load("~/mirDriverFold/EXAMPLE_DATASETS/mirnaData.Rda")
-##getTransGenePredictorFile(ncores, methylationData, RSeqData, CNVData,TFData,mirnaData      
-## ,(parallel = TRUE), mirdirectory="~/")
+#load(system.file("extdata", "dummy_methylationData10.Rda", package="miRDriver"))
+#load(system.file("extdata", "dummy_RSeqData10_200.Rda", package="miRDriver"))
+#load(system.file("extdata", "dummy_CNVData10.Rda", package="miRDriver"))
+#load(system.file("extdata", "dummy_TFData.Rda", package="miRDriver"))
+#load(system.file("extdata", "dummy_mirnaData10.Rda", package="miRDriver"))
+load(system.file("data", "miRDriverData.RData", package="miRDriver"))
+getTransGenePredictorFile(ncores = 2,methylationData=dummy_methylationData10,
+RSeqData=dummy_RSeqData10_200,CNVData=dummy_CNVData10,
+TFData=dummy_TFData,mirnaData=dummy_mirnaData10,
+parallel = FALSE,mirdirectory="~/MIR123")
 }\value{
 Returns nothing
 }

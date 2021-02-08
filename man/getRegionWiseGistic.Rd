@@ -20,9 +20,8 @@ Banabithi Bose
 }\examples{
 print("Produce regionwise Gistic files i.e. aberration peak wise files")
 ##The following code is a valid example of how to use the function but is commented as it
-##takes a very long time to run
-##gisticfile<-"~/mirDriverFold/EXAMPLE_DATASETS/all_lesions.conf_90.txt"
-##getRegionWiseGistic(gisticfile=gisticfile,gistic_bedfile=TRUE, mirdirectory="~/")
+getRegionWiseGistic(gisticfile=system.file("extdata", "Dummy.gistic.lesions.txt",
+package="miRDriver"),gistic_bedfile = TRUE,mirdirectory="~/MIR123")
 }\value{
 Returns nothing
 }

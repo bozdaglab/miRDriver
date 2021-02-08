@@ -24,11 +24,10 @@ Banabithi Bose
 }\examples{
 print("This function finds the differentially expressed genes.")
 ##The following code is a valid example of how to use the function but is commented as it
-##takes a very long time to run
-##ncore<- 2
-##load("~/mirDriverFold/EXAMPLE_DATASETS/RnaSeq_count_data.Rda")
-##getDifferentiallyExpressedGenes(ncore, RNACount=RnaSeq_count_data,
-##parallel = TRUE, mirdirectory="~/")
+#load(system.file("extdata", "Dummy_RnaSeq_Count_Data.Rda", package="miRDriver"))
+load(system.file("data", "miRDriverData.RData", package="miRDriver"))
+getDifferentiallyExpressedGenes(RNACount = Dummy_RnaSeq_Count_Data,
+parallel = FALSE, mirdirectory = "~/MIR123")
 
 }\value{
 Returns nothing

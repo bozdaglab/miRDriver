@@ -5,7 +5,7 @@ date: "9/9/2020"
 output:      
     BiocStyle::html_document:
         toc: true
-        toc_depth: 3  
+        toc_depth: 4  
         number_sections: true
         theme: united 
 r_packages: rmarkdown
@@ -17,8 +17,8 @@ vignette: >
 
 
 # <a id = "Introduction"></a> Introduction
-miRDriver is a computational tool that infers copy number aberation-bsed miRNA-gene interactions in cancer. miRDriver has four computational steps. In the first step we find frequently aberrated regions that have been retrieved from the GISTIC tool (https://cloud.genepattern.org/gp/pages/index.jsf?lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00125:6.15.28). 
-In the second step, for each GISTIC region we computed differentially expressed (DE) genes between frequently aberrated and non-aberrated patient groups. In the third step, we retrieved DE genes and miRNAs that reside in aberrated regions (i.e. cis genes and cis miRNAs) and retrieved DE genes that are outside of aberrated regions (i.e. trans genes). In the last step, we employed a LASSO-based regression model to compute miRNA regulators of the trans genes.
+miRDriver is a computational tool that infers copy number aberation-bsed miRNA-gene interactions in cancer. miRDriver has four computational steps. In the first step it finds frequently aberrated regions that have been retrieved from GISTIC2.0 tool (https://cloud.genepattern.org/). 
+In the second step, for each GISTIC region miRDriver computes differentially expressed (DE) genes between frequently aberrated and non-aberrated patient groups. In the third step, miRDriver retrieves DE genes and miRNAs that reside in aberrated regions (i.e. cis genes and cis miRNAs) and retrieved DE genes that are outside of aberrated regions (i.e. trans genes). In the last step, miRDriver employes a LASSO-based regression model to compute miRNA regulators of the trans genes.
 
 
 ```{r}
@@ -26,27 +26,38 @@ library("miRDriver");
 ```
 
 # <a id = "Example-Data-Sets"></a> Example Data Sets
-The datasets included are included to give the user an idea of the type of data that is required to run the pipeline. This includes genomic data (gene expression, copy number variation, transcription factor) and epigenomic data (methylation). The gene expression data can be RNASeq or Microarray data with proper  normalization, althought the code has not been tested on Microarray data. The first phase of miRDriver requires copy number data files that are segmented. The Lasso phase of miRDriver requires gene centric copy number data. The methylation data needs to be gene centric beta values. For further details on how to preprocess the datasets, one should reference the method paper "miRDriver: A tool to infer copy number derived miRNA-Gene networks in cancer". The data sets included in this package are dummy datasets that are used to run the code in the vignette, but are not large enough to produce meaningful results. The original data that the dummy datasets are derivedfrom are included on our github page. Our original data sets are from TCGA (The Cancer Genome Atlas) database. For actual datasets one can use the TCGA (The Cancer Genome Atlas) database or any other resource. When preparing the dummy data sets we chose 10 patients, and cropped each dataset to only include the 10 chosen patients. We also reduced the number of genes and only included the genes that were a part of the chosen group.
+The example datasets are provided to run all four steps of miRDriver. This includes genomic data (gene expression, copy number variation, transcription factor) and epigenomic data (methylation). The gene expression data can be RNASeq or Microarray data with proper  normalization, although the code has not been tested on Microarray data. The first step of miRDriver requires segmented copy-number data. The Lasso step of miRDriver requires gene centric copy number data. The methylation data needs to be gene centric beta values. For further details on how to preprocess the datasets, one should refer to the method paper (https://www.biorxiv.org/content/10.1101/652156v1)
+. The example data sets included in this package are dummy datasets that are used to run the code in the vignette, but  not to produce meaningful results. The original datasets are included on our github page (https://github.com/bozdaglab/miRDriver-Datasets). Our original data sets are from TCGA (The Cancer Genome Atlas) database. For actual datasets one can use the TCGA (The Cancer Genome Atlas) database or any other resource. 
 
-## <a id = "mirna-bedfile"></a> mirna bedfile
-This is an R dataframe object where the data represents the genomic position of the miRNA's. The rows in this dataset are the chromosomal regions that start with "chr1", the same notation carries forward to all chromosomes. The columns will be “chromosome number”, “start position”, “end position”, and "mirna". The chromosome number will follow the notion of "chr1", the start position and end positions will be integers and the mirna will be a string with the mirna ID.
+## <a id = "mirna_bedfile"></a> mirna_bedfile
+This is an R dataframe object where the data represents the genomic position of the miRNAs. The rows in this dataset are the chromosomal regions that start with "chr" followed by chromosome numbers as integers 1-22.. The columns are “chromosome number”, “start position”, “end position”, and "miRNA ID".
 
 
 ```{r}
-load(system.file("extdata", "mirna_bedfile.Rda", package="miRDriver"))
+load(system.file("data", "miRDriverData.RData", package="miRDriver"))
+#load(system.file("data", "mirna_bedfile.Rda", package="miRDriver"))
+# mirna_bedfile<-read.csv(system.file("extdata", "mirna_bedfile.csv", package="miRDriver"))
+# mirna_bedfile<-as.data.frame(mirna_bedfile)
+# row.names(mirna_bedfile)<-mirna_bedfile[,c(1)]
+# mirna_bedfile<-mirna_bedfile[,-c(1)]
 mirna_bedfile[1:5,]
 ```
 
 ## <a id = "RNA-seq-count-data"></a> RNA seq count data
-This is an R matrix object where the data is the RNA Seq count data for each patient and each gene in the study. The count values are normalized using FPKM. The rows of this data set are ENSEMBLE ID's for each gene. The columns are sample id's for the patients in the study.
+This is an R dataframe object where the data is the RNA Seq count data for each patient and each gene in the study. The rows are the genes. The columns are the sample IDs for the patients.
 
 ```{r}
-load(system.file("extdata", "Dummy_RnaSeq_Count_Data.Rda", package="miRDriver"))
+#load(system.file("data", "Dummy_RnaSeq_Count_Data.Rda", package="miRDriver"))
+# Dummy_RnaSeq_Count_Data<-read.csv(system.file("extdata", "Dummy_RnaSeq_Data.csv", package="miRDriver"))
+# row.names(Dummy_RnaSeq_Count_Data)<-Dummy_RnaSeq_Count_Data[,c(1)]
+# Dummy_RnaSeq_Count_Data<-Dummy_RnaSeq_Count_Data[,-c(1)]
+# 
+# Dummy_RnaSeq_Count_Data<-as.matrix(Dummy_RnaSeq_Count_Data)
 Dummy_RnaSeq_Count_Data[1:5,1:3]
 ```
 
 ## <a id = "lesions-file"></a> lesions file
-This text file contains information about possible aberated genetic segments, "peaks", and the aberation status for each sample. This files is made by the GISTIC tool. The first 9 columns of the GISTIC output the columns will be “Unique.Name, Descriptor, Wide.Peak.Limits, Peak.Limits, Region.Limits, q.values". After the first 9 columns there are sample id's with their aberation status "0", "1", "2". The status level 0 represents there not being a copy number  aberation, status level "1" represents a low level copy number aberation, and "2" represents a high level copy number aberation.
+This text file by the GISTIC2.0 tool. The first 9 columns  “Unique.Name, Descriptor, Wide.Peak.Limits, Peak.Limits, Region.Limits, q.values". After the first 9 columns there are sample id's with their aberration status "0", "1", "2"; "0" represents no copy number  aberration, "1" represents a low level copy number aberration, and "2" represents a high level copy number aberration.
 
 ```{r}
 x<-read.table(system.file("extdata", "Dummy.gistic.lesions.txt", package="miRDriver"), sep = "\t", header = TRUE)
@@ -54,57 +65,85 @@ x[1:5,c(1,10:13)]
 ```
 
 ## <a id = "hg38-genes-coordinate-bedfile"></a> hg38 genes coordinate bedfile
-This file is an R dataframe object. It has the coordinates for all the genes in the human genome. There are four columns. They are the chromosome, the start position, the end position and the ENSEMBLE ID. The rows are labeled with the gene id.
+This file is an R dataframe object. It has the coordinates for all the genes in the human genome. There are four columns, such as the chromosome, the start position, the end position and the ENSEMBLE ID. The rows are labeled with the gene IDs.
 
 ```{r}
-load(system.file("extdata", "hg38_genes_coord_bedfile.rda", package="miRDriver"))
+#load(system.file("data", "hg38_genes_coord_bedfile.rda", package="miRDriver"))
+# Genes_coord<-read.csv(system.file("extdata", "hg38_genes_coord_bedfile.csv", package="miRDriver"))
+# Genes_coord<-as.data.frame(Genes_coord)
+# row.names(Genes_coord)<-Genes_coord[,c(1)]
+# Genes_coord<-Genes_coord[,-c(1)]
 Genes_coord[1:5,]
 ```
 ## <a id = "CNVData"></a> CNVData
-This file is a R dataframe object. It containes the copy number variation data. The first column is labeled "sample", and contains the sample id's. The rest of the columns are the the values for the copy number variation for the gene represented with ENSEMBLE ID.
+This file is a R dataframe object with gene-centric copy number values. The first column, labeled as "sample", contains the sample IDs. The rest of the columns are the the values for the copy number values of the genes.
 
 ```{r}
-load(system.file("extdata", "dummy_CNVData10.Rda", package="miRDriver"))
+#load(system.file("data", "dummy_CNVData10.Rda", package="miRDriver"))
+# dummy_CNVData10<-read.csv(system.file("extdata", "dummy_CNVData10.csv", package="miRDriver"))
+# dummy_CNVData10<-as.data.frame(dummy_CNVData10)
+# row.names(dummy_CNVData10)<-dummy_CNVData10[,c(1)]
+# dummy_CNVData10<-dummy_CNVData10[,-c(1)]
 dummy_CNVData10[1:5,1:3]
 ```
 
 ## <a id = "mirnaData"></a> mirnaData
-This file is a R dataframe object. It contains the expression data for the miRNA included in the study. The first column is labeled "sample" and contains the sample id's. The rest of the columns are the data for the miRNA in column title, represented in hsa format.
+This file is a R dataframe object. It contains the miRNA expression data for the samples. The first column is labeled as "sample" and contains the sample IDs. The rest of the columns are the miRNAs with expression values.
 
 ```{r}
-load(system.file("extdata", "dummy_mirnaData10.Rda", package="miRDriver"))
+#load(system.file("data", "dummy_mirnaData10.Rda", package="miRDriver"))
+# dummy_mirnaData10<-read.csv(system.file("extdata", "dummy_mirnaData10.csv", package="miRDriver"))
+# dummy_mirnaData10<-as.data.frame(dummy_mirnaData10)
+# row.names(dummy_mirnaData10)<-dummy_mirnaData10[,c(1)]
+# dummy_mirnaData10<-dummy_mirnaData10[,-c(1)]
 dummy_mirnaData10[1:5,1:3]
 ```
 ## <a id = "RSeqData"></a> RSeqData
-This file is a R dataframe object. It is the RNA Seq data for the genes and patients included in the study. The first column, labeled sample, has sample id's and the rest of the columns are labeled with the ENSEMBLE ID and have the RSeq values.
+This file is a R dataframe object. It contains the expression data fro the samples. The first column is labeled as "Sample" and contains the Sample IDs. The rest of the columns are the genes with expression values.
 
 ```{r}
-load(system.file("extdata", "dummy_RSeqData10_200.Rda", package="miRDriver"))
+#load(system.file("data", "dummy_RSeqData10_200.Rda", package="miRDriver"))
+# dummy_RSeqData10_200<-read.csv(system.file("extdata", "dummy_RSeqData10.csv", package="miRDriver"))
+# dummy_RSeqData10_200<-as.data.frame(dummy_RSeqData10_200)
+# row.names(dummy_RSeqData10_200)<-dummy_RSeqData10_200[,c(1)]
+# dummy_RSeqData10_200<-dummy_RSeqData10_200[,-c(1)]
 dummy_RSeqData10_200[1:5,1:3]
 ```
 ## <a id = "TFData"></a> TFData
-This file is a R dataframe object. It has the transription factor (TF) genomic data for the genes in the study. The first column, labeled V1, has the genes in ENSEMBLE ID format and the second column, labeled TF, has the transcription factors in ENSEMBLE ID format.
+This file is a R dataframe object that contains gene and transcription factor(TF) interactions. The first column, labeled as "V1" contains the genes and the second column, labeled as "TF", contains the transcription factors.
 
 ```{r}
-load(system.file("extdata", "dummy_TFData.Rda", package="miRDriver"))
+#load(system.file("data", "dummy_TFData.Rda", package="miRDriver"))
+# dummy_TFData<-read.csv(system.file("extdata", "dummy_TFData.csv", package="miRDriver"))
+# dummy_TFData<-as.data.frame(dummy_TFData)
+# row.names(dummy_TFData)<-dummy_TFData[,c(1)]
+# dummy_TFData<-dummy_TFData[,-c(1)]
 dummy_TFData[1:5,]
 ```
 ## <a id = "methylationData"></a> methylationData
-This file is a R dataframe object. It contains the DNA methylation data of each gene for each patient. The first column, labeled sample, has the sample id's and the rest of the columns have the methylation values for the gene represented by the ENSEMBLE ID in the column label.
+This file is a R dataframe object. It contains the gene centric DNA methylation values for each sample. The first column labeled as "sample" contains the sample IDs. The rest of the columns are the genes with methylation values.
 
 ```{r}
-load(system.file("extdata", "dummy_methylationData10.Rda", package="miRDriver"))
+#load(system.file("extdata", "dummy_methylationData10.Rda", package="miRDriver"))
+# dummy_methylationData10<-read.csv(system.file("extdata", "dummy_methylationData10.csv", package="miRDriver"))
+# dummy_methylationData10<-as.data.frame(dummy_methylationData10)
+# row.names(dummy_methylationData10)<-dummy_methylationData10[,c(1)]
+# dummy_methylationData10<-dummy_methylationData10[,-c(1)]
 dummy_methylationData10[1:5,1:3]
 ```
 
 # <a id = "Using-the-Functions"></a> Using the Functions
-The functions are dependent on each other in the sense that user needs to finish the first step of miRDriver in order to start the second step and so on. The following sections go over the how to use each function individually. They are in the order the functions should be run in to complete the pipeline, showing how they are dependent on each other.
+The following sections describe the "functions" of miRDriver. The functions are dependent on each other in the sense that user needs to finish the first step of miRDriver in order to start the second step and so on.
 
-## <a id = "Step-1"></a> Step 1
-Step one of the miRDriver pipeline finds frequently aberated copy number regions among cancer patients. This step consists of one function, *getRegionWiseGistic()*.
+## <a id = "Step-1-Finding-Gistic-Regions"></a> Step 1 Finding Gistic Regions
+Step one of the miRDriver pipeline finds frequently aberrated copy number regions among cancer patients. This step consists of one function, *getRegionWiseGistic()*.
 
 ### <a id = "getRegionWiseGistic"></a> getRegionWiseGistic
-This function uses the lesions file to find the aberrations for each peak. The lesions file, as stated in the example data sets section, can be created with the GISTIC2.0 module on genepattern.com (https://cloud.genepattern.org/gp/pages/index.jsf?lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00125:6.15.28).If one uses GISTIC2.0 to make the lesions file, then the lesions file will be labeled all_lesions.conf_90.txt. As one can see in the example code, this file is used in the function as the argument *gisticfile*. The *gistic_bedfile* argument should be either TRUE or FALSE, representing if the user would like the function to make a gistic_bedfile. The *mirdirectory* argument needs to be the file path that the user wants the results to be in. The mirdirectory needs to be the same for all functions in the same analysis.
+This function uses the lesions file to find the aberrations for each peak. The lesions file, as stated in the example data sets section, can be created with the GISTIC2.0 module on genepattern.com 
+
+(https://cloud.genepattern.org/gp/pages/index.jsf?lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00125:6.15.28). 
+
+If one uses GISTIC2.0 to make the lesions file, then the lesions file will be labeled all_lesions.conf_90.txt. As one can see in the example code, this file is used in the function as the argument *gisticfile*. The *gistic_bedfile* argument should be either TRUE or FALSE, representing if the user would like the function to make a gistic_bedfile. The *mirdirectory* argument needs to be the file path that the user wants the results to be in. The *mirdirectory* needs to be the same for all functions in the same analysis.
 
 Arguments:
 
@@ -118,7 +157,7 @@ mirdirectory - a character string for the file path of the directory one wants t
 getRegionWiseGistic(gisticfile=system.file("extdata", "Dummy.gistic.lesions.txt", package="miRDriver"),gistic_bedfile = TRUE,mirdirectory="~/MIR123")
 ```
 
-Output: The output from this function can be found in the mirdirectory in mirDriverFold/miRDriver_Step1. This produces the GISTIC bedfile in the GisticResults folder and a file for each peak in the Regionwise_Gistic_Files folder.
+Output: The output from this function can be found in a subdirectory of the  mirdirectory entitled mirDriverFold/miRDriver_Step1. Inside mirDriverFold/miRDriver_Step1 there is a subdirectory entitled GisticResults and a subdirectory entitled Regionwise_Gistic_Files.
 
 ```{r}
 load("~/MIR123/mirDriverFold/miRDriver_Step1/GisticResults/gistic_bedfile.rda")
@@ -131,11 +170,13 @@ x<-data.frame(read.table("~/MIR123/mirDriverFold/miRDriver_Step1/Regionwise_Gist
 x[1:5,]
 ```
 
-##<a id = "Step-2"></a> Step 2
+
+## <a id = "Step-2-Finding-Differentially-Expressed-Trans-Genes"></a> Step 2 Finding Differentially Expressed Trans Genes
 Step two of the miRDriver pipeline is to find the differentially expressed (DE) genes. This step uses two functions, *getDifferentiallyExpressedGenes()* and *makingTransAndCisGenes()*.
 
+
 ### <a id = "getDifferentiallyExpressedGenes"></a> getDifferentiallyExpressedGenes
-This function finds the differentially expressed genes based off of peak wise files generated in the getRegionWiseGistic function and RNASeq count data. This function can be run in parallel or on one core. The user sets the number of cores in the *ncore* argument or uses the default of two. To run in parallel the argument *parallel* is set to TRUE, to run linearly the argument is set to FALSE. The argumen *RNAcount* needs to be set to the file path for the RNASeq count data. The peakwise files should be in the correct folder to be used with the code,  "~/mirdirectory/mirDriver/miRDriver_Step1/Regionwise_Gistic_Files". In the example mirdirectory represents the *mirdirectory* argument. If the user has run the getRegionWiseGistic function and set the mirdirectory to the same thing in both functions then the peakwise files are in the correct place.
+This function finds the differentially expressed genes based off of the peak wise files generated in the getRegionWiseGistic function and RNASeq count data. This function can be run in parallel or on one core. The user sets the number of cores in the *ncore* argument or uses the default of two. To run in parallel the argument *parallel* is set to TRUE, to run linearly the argument is set to FALSE. The argument *RNAcount* needs to be set to the file path for the RNASeq count data. The argument *mirdirectory* needs to be the same as in all previous functions.
 
 Arguments:
 
@@ -143,13 +184,13 @@ ncore - assuming parallel core use, an integer value for the number of cores use
 
 RNAcount - a character string for the file path to a R dataframe of RNA seq count
 
-parallel - a logic value (TRUE/FALSE) for whether or not one wants to run the code in parallelE
+parallel - a logic value (TRUE/FALSE) for whether or not one wants to run the code in parallel
 
 mirdirectory - a character string for the file path of the directory one wants the results in, must be the same as in all previous functions.
 
 
 ```{r warning=FALSE}
-load(system.file("extdata", "Dummy_RnaSeq_Count_Data.Rda", package="miRDriver"))
+#load(system.file("extdata", "Dummy_RnaSeq_Count_Data.Rda", package="miRDriver"))
 getDifferentiallyExpressedGenes(RNACount = Dummy_RnaSeq_Count_Data, parallel = FALSE, mirdirectory = "~/MIR123")
 ```
 
@@ -174,11 +215,11 @@ mirdirectory - a character string for the file path of the directory one wants t
 
 ```{r}
 load("~/MIR123/mirDriverFold/miRDriver_Step1/GisticResults/gistic_bedfile.rda")
-load(system.file("extdata", "hg38_genes_coord_bedfile.rda", package="miRDriver"))
+#load(system.file("extdata", "hg38_genes_coord_bedfile.rda", package="miRDriver"))
 makingCisAndTransGenes(Genes_coord_bedfile = Genes_coord, gistic_bedfile=region, mirdirectory="~/MIR123")
 ```
 
-Output: The output for this function can be found in the mirdirectory in mirDriverFold/miRDriver_Step2/Trans_Cis_Files. There is a directory with four files in it for each peak. 
+Output: The output for this function can be found in subdirectory of the  mirdirectory entitled mirDriverFold/miRDriver_Step2/Trans_Cis_Files. There is a directory with four files in it for each peak. 
 
 ```{r}
 load("~/MIR123/mirDriverFold/miRDriver_Step2/Trans_Cis_Files/Amplification Peak  1/trans_genes.Rda")
@@ -197,8 +238,10 @@ load("~/MIR123/mirDriverFold/miRDriver_Step2/Trans_Cis_Files/Amplification Peak 
 cis_genes
 ```
 
-##<a id = "Step-3"></a> Step 3
+
+## <a id = "Step-3-Gathering-Cis-Genes-and-Cis-miRNA-For-Each-Trans-Gene"></a> Step 3 Gathering Cis Genes and Cis miRNA For Each Trans Gene
 Step three of the miRDriver pipeline is the gathering of the cis genes and cis miRNA for each trans gene. This step uses one function, *gatherCisGenes()*.
+
 
 ### <a id = "gatherCisGenes"></a> gatherCisGenes
 This function collects all the DE cis genes and all miRNAs for each trans gene. This function uses the output from the *makingCisAndTransGene()* function as well as a *mirna_bedfile* and a *gistic_bedfile*. The gistic_bedfile is described in the makingCisAndTransGene function description and can be made using the *getRegionWiseGistic()* function. The *mirna_bedfile* is described in the example datasets section and needs to be provided by the user. The output from this function is in the folders gene_all_DEcis and gene_all_mirna. In these folders there is a folder for each trans gene where all the miRNA's or DE cis genes are listed. As with all the functions the mirdirectory needs to be consistent with the other functions.
@@ -217,17 +260,18 @@ mirdirectory - a character string for the file path of the directory one wants t
 
 
 ```{r}
-load(system.file("extdata", "mirna_bedfile.Rda", package="miRDriver"))
+#load(system.file("extdata", "mirna_bedfile.Rda", package="miRDriver"))
 load("~/MIR123/mirDriverFold/miRDriver_Step1/GisticResults/gistic_bedfile.rda")
-dummy_mirna_bedfile<-mirna_bedfile[1:100,]
-gatherCisGenes(ncores = 2,mirna_bedfile=dummy_mirna_bedfile,gistic_bedfile=region,parallel = FALSE,mirdirectory="~/MIR123")
+#dummy_mirna_bedfile<-mirna_bedfile[1:100,]
+
+gatherCisGenes(ncores=6,mirna_bedfile=mirna_bedfile,gistic_bedfile=region,parallel = FALSE,mirdirectory="~/MIR123")
 
 ```
 
-Output: The output for this function can be found in the mirdirectory in mirDriverFold/miRDriver_Step3. The mirna files for each gene are in the folder gene_all_mirna and the DE cis genes for each gene are in the folder gene_all_DEcis. In this case there are no DECis genes for our output due to the dummy datasets, but the dataframes will follow the pattern of the mirna dataframe.
+Output: The output for this function can be found in the mirdirectory in mirDriverFold/miRDriver_Step3. The miRNA files for each gene are in the folder gene_all_mirna and the DE cis genes for each gene are in the folder gene_all_DEcis. In this case there are no DECis genes for our output due to the dummy datasets, but the dataframes will follow the pattern of the miRNA dataframe.
 
 ```{r}
-load("~/MIR123/mirDriverFold/miRDriver_Step3/gene_all_DEcis/ENSG00000100242.Rda")
+load("~/MIR123/mirDriverFold/miRDriver_Step3/gene_all_DEcis/ENSG00000036828.Rda")
 TC
 ```
 ```{r}
@@ -235,11 +279,13 @@ load("~/MIR123/mirDriverFold/miRDriver_Step3/gene_all_mirna/ENSG00000124205.Rda"
 GM[1:3,]
 ```
 
-##<a id = "Step-4"></a> Step 4
+
+## <a id = "Step-4-Selecting-Potential-miRNA's-Regulating-DE-Trans-Genes"></a> Step 4 Selecting Potential miRNA's Regulating DE Trans Genes
 Step four of the miRDriver pipeline is to select potential miRNAs regulating DE trans genes. This step uses two functions, *getTransGenePredictorFile()* and *lassoParallelForTransGene()*.
 
+
 ### <a id = "getTransGenePredictorFile"></a> getTransGenePredictorFile
-This function creates a TransGenePredictorFile for each trans gene based on the mirna and DE cis files from the output of the *gatherCisGenes* function and the user provided dataframes *methylationData*, *RSeqData*, *CNVData*, *TFData*, *mirnaData*. The five dataframes needed for this function are described in the example datasets section. The TransGenePredictorFiles will contain information about the possible predictors for each patient based on the data provided. The TransGenePredictorFiles will be saved in the file path ~/mirdirectory/mirDriverFold/miRDriver_Step4/TransGenePredFile/. As always mirdirectory in the file path represents the mirdirectory chosen for the analysis and should be the same as the mirdirectory used in all previous functions.
+This function creates a TransGenePredictorFile for each trans gene based on the miRNA and DE cis files from the output of the *gatherCisGenes* function and the user provided dataframes *methylationData*, *RSeqData*, *CNVData*, *TFData*, *mirnaData*. The five dataframes needed for this function are described in the example datasets section. The TransGenePredictorFiles will contain information about the possible predictors for each patient based on the data provided. The TransGenePredictorFiles will be saved in the file path ~/mirdirectory/mirDriverFold/miRDriver_Step4/TransGenePredFile/. As always mirdirectory in the file path represents the mirdirectory chosen for the analysis and should be the same as the mirdirectory used in all previous functions.
 
 Arguments:
 
@@ -249,24 +295,27 @@ methylationData - a dataframe for the methylation data
 
 RSeqData - a dataframe for the RNASeq data
 
-CNVData - a dataframe for the copy number varation data
+CNVData - a dataframe for the copy number variation data
 
 TFData - a dataframe for the transcription factor data
 
-mirnaData - a dataframe for the mirna data
+mirnaData - a dataframe for the miRNA data
 
 parallel - a logic value for whether or not the user wants to run the code in parallel
 
 mirdirectory - a character string for the file path of the directory one wants the results in, should be the same as in previous functions
 
 ```{r}
-load(system.file("extdata", "dummy_methylationData10.Rda", package="miRDriver"))
-load(system.file("extdata", "dummy_RSeqData10_200.Rda", package="miRDriver"))
-load(system.file("extdata", "dummy_CNVData10.Rda", package="miRDriver"))
-load(system.file("extdata", "dummy_TFData.Rda", package="miRDriver"))
-load(system.file("extdata", "dummy_mirnaData10.Rda", package="miRDriver"))
+#load(system.file("extdata", "dummy_methylationData10.Rda", package="miRDriver"))
+#load(system.file("extdata", "dummy_RSeqData10_200.Rda", package="miRDriver"))
+#load(system.file("extdata", "dummy_CNVData10.Rda", package="miRDriver"))
+#load(system.file("extdata", "dummy_TFData.Rda", package="miRDriver"))
+#load(system.file("extdata", "dummy_mirnaData10.Rda", package="miRDriver"))
+#dummy_mirnaData10<-data.table::as.data.table(dummy_mirnaData10)
+#dummy_CNVData10<-data.table::as.data.table(dummy_CNVData10)
+#dummy_RSeqData10_200<-data.table::as.data.table(dummy_RSeqData10_200)
 
-getTransGenePredictorFile(ncores = 2,methylationData=dummy_methylationData10,RSeqData=dummy_RSeqData10_200,CNVData=dummy_CNVData10,TFData=dummy_TFData,mirnaData=dummy_mirnaData10,parallel = FALSE,mirdirectory="~/MIR123")
+getTransGenePredictorFile(methylationData=dummy_methylationData10,RSeqData=dummy_RSeqData10_200,CNVData=dummy_CNVData10,TFData=dummy_TFData,mirnaData=dummy_mirnaData10,parallel = FALSE,mirdirectory="~/MIR123")
 
 ```
 
@@ -281,7 +330,7 @@ GenePred[1:3,]
 
 ### <a id = "lassoParallelForTransGene"></a> lassoParallelForTransGene
 
-This function runs a LASSO regression to find what contributes to the expression of the trans gene. This type of regression eliminate non-contributors by settting their coefficient to zero. If the coeffiecient of a miRNA is non-zero after the regression finishes then it is a contributor. However, to be accurate the regression is set to run multiple times (the user specifies as an argument), with a certain percentage of times needed with the coefficient to be non-zero. (the user specifies this as an argument as well). The user also needs to provide the number of folds they want their regression to use. The regression is run on the TransGenePredictorFiles created by the getTransPredictorFile function. The output from this function is found in the file path ~/mirdirectory/mirDriverFold/miRDriver_RESULTS/. The mirdirectory in the file path represents the directory chosen by the user and specified in the argument, mirdirectory. The argument *mirdirectory* needs to be set to the same directory as the mirdirectory in the previous steps. 
+This function runs a LASSO regression to find what contributes to the expression of the trans gene. This type of regression eliminates non-contributors by setting their coefficient to zero. If the coeffiecient of a miRNA is non-zero after the regression finishes then it is a contributor. However, to find accurate results the regression is set to run multiple times (the user specifies with the argument *numCounter*), with a certain percentage of times needed with the coefficient to be non-zero(the user specifies this with the argument *nonZeroPercent*). The user also needs to provide the number of folds they want their regression to use. The regression is run on the TransGenePredictorFiles created by the getTransPredictorFile function. The output from this function is found in the file path ~/mirdirectory/mirDriverFold/miRDriver_RESULTS/. The mirdirectory in the file path represents the directory chosen by the user and specified in the argument, mirdirectory. The argument *mirdirectory* needs to be set to the same directory as the mirdirectory in the previous steps. 
 
 Arguments:
 
