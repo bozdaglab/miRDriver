@@ -24,9 +24,13 @@ Banabithi Bose
 print("This function makes the cis and trans genes for the differentially expressed genes")
 ##The following code is a valid example of how to use the function but is commented as it
 ##takes a very long time to run 
-##load("~/mirDriverFold/EXAMPLE_DATASETS/hg38_genes_coord_bedfile.rda")
-##load("~/mirDriverFold/EXAMPLE_DATASETS/gistic_bedfile.rda")
-##makingCisAndTransGenes(Genes_coord_bedfile=Genes_coord, gistic_bedfile=region, mirdirectory="~/")
+#load("~/MIR123/mirDriverFold/miRDriver_Step1/GisticResults/gistic_bedfile.rda")
+#load(system.file("extdata", "hg38_genes_coord_bedfile.rda", package="miRDriver"))
+load("~/MIR123/mirDriverFold/miRDriver_Step1/GisticResults/gistic_bedfile.rda")
+
+load(system.file("data", "miRDriverData.RData", package="miRDriver"))
+makingCisAndTransGenes(Genes_coord_bedfile = Genes_coord, 
+gistic_bedfile=region, mirdirectory="~/MIR123")
 
 }\value{
 Returns nothing

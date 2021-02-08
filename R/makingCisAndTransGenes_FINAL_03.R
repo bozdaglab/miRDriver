@@ -58,7 +58,7 @@ makingCisAndTransGenes <-function(Genes_coord_bedfile, gistic_bedfile, mirdirect
             Genes_coord_bedfile$chr<-paste0("chr", Genes_coord_bedfile$chr)
             colnames(Genes_coord_bedfile)<-c("seqnames", "strand", "start", "end", "gene")
             subject<-Genes_coord_bedfile%>%as_granges()
-            intersect_rng <- join_overlap_intersect(query, subject)
+            intersect_rng <- suppressWarnings(join_overlap_intersect(query, subject))
             Gistic_Genes<-as.data.frame(intersect_rng)
             ##end new join code
             

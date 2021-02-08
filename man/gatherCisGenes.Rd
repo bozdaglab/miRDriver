@@ -28,12 +28,12 @@ Banabithi Bose
 }\examples{
 print("This function gathers all of the cis genes that go to the same trans gene.")
 ##The following code is a valid example of how to use the function but is commented as it
-##takes a very long time to run
-##load("~/mirDriverFold/EXAMPLE_DATASETS/mirna_bedfile.rda")
-##load("~/mirDriverFold/EXAMPLE_DATASETS/gistic_bedfile.rda")
-##ncores<- 2
-##gatherCisGenes(ncores,mirna_bedfile=mirna_bedfile,gistic_bedfile=FALSE,
-##parallel =FALSE, mirdirectory="~/")
+#load(system.file("extdata", "mirna_bedfile.Rda", package="miRDriver"))
+load("~/MIR123/mirDriverFold/miRDriver_Step1/GisticResults/gistic_bedfile.rda")
+#dummy_mirna_bedfile<-mirna_bedfile[1:100,]
+load(system.file("data", "miRDriverData.RData", package="miRDriver"))
+gatherCisGenes(ncores = 2,mirna_bedfile=mirna_bedfile,
+gistic_bedfile=region,parallel = FALSE,mirdirectory="~/MIR123")
 }\value{
 Returns nothing
 }

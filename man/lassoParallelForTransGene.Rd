@@ -27,13 +27,8 @@ Banabithi Bose
 }\examples{
 print("This function runs a lasso regression on all of the predictors for a data set.")
 ##The following code is a valid example of how to use the function but is commented as it
-##takes a very long time to run
-##ncores=2
-##Nfolds<-3
-##numCounter = 20
-##nonZeroPercent = 10
-##x<-lassoParallelForTransGene(ncores = 70,numCounter = 3,Nfolds = 3,nonZeroPercent = 10     
-## ,parallel = TRUE, mirdirectory="~/")
+lassoParallelForTransGene(ncores = 2,numCounter = 10,Nfolds = 3,
+nonZeroPercent = 20,parallel = FALSE, mirdirectory = "~/MIR123")
 
 }\value{
 Returns nothing

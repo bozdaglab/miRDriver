@@ -76,9 +76,9 @@ getDifferentiallyExpressedGenes <-function(ncore = 2,RNACount, parallel = c('TRU
     }
     if (parallel == TRUE) {
         if(.Platform$OS.type == "windows"){
-            cl <- makeCluster(mc <- getOption("cl.cores", ncores), type = "PSOCK")
+            cl <- makeCluster(mc <- getOption("cl.cores", ncore), type = "PSOCK")
         }else{
-            cl <- makeCluster(mc <- getOption("cl.cores", ncores), type = "FORK")
+            cl <- makeCluster(mc <- getOption("cl.cores", ncore), type = "FORK")
         }
         invisible(clusterEvalQ(cl, library('glmnet')))
         invisible(clusterEvalQ(cl, library(janitor)))
