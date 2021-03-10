@@ -11,10 +11,8 @@ A data frame with 200 observations for 10 samples. The first column contains the
 }
 \source{
 TCGA Database (https://portal.gdc.cancer.gov/)
-}%%  ~~ reference to a publication or URL from which the data were obtained ~~
-
+}
 \examples{
 data(dummy_RSeqData10_200)
-## maybe str(dummy_RSeqData10_200) ; plot(dummy_RSeqData10_200) ...
 }
 \keyword{datasets}

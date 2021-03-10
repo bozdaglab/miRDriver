@@ -11,9 +11,9 @@ A data frame with 300 observations for 10 samples. The first column contains the
 }
 \source{
 TCGA Database (https://portal.gdc.cancer.gov/)
-}%%  ~~ reference to a publication or URL from which the data were obtained ~~
+}
 \examples{
-data(dummy_mirnaData10)
-## maybe str(dummy_mirnaData10) ; plot(dummy_mirnaData10) ...
+data(miRDriverData)
+dummy_mirnaData10[1:3, 1:3]
 }
 \keyword{datasets}

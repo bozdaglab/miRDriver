@@ -10,9 +10,9 @@ A R dataframe object that contains gene and transcription factor(TF) interaction
 }
 \source{
 TCGA Database (https://portal.gdc.cancer.gov/)
-}%%  ~~ reference to a publication or URL from which the data were obtained ~~
+}
 \examples{
-data(dummy_TFData)
-## maybe str(dummy_TFData) ; plot(dummy_TFData) ...
+data(miRDriverData)
+dummy_TFData[1:3,]
 }
 \keyword{datasets}

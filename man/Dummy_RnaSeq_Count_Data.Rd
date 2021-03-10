@@ -14,6 +14,5 @@ TCGA Database (https://portal.gdc.cancer.gov/)
 }
 \examples{
 data(Dummy_RnaSeq_Count_Data)
-## maybe str(Dummy_RnaSeq_Count_Data) ; plot(Dummy_RnaSeq_Count_Data) ...
 }
 \keyword{datasets}

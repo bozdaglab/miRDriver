@@ -9,10 +9,8 @@ A R dataframe object. It has the coordinates for all the genes in the human geno
 }
 \source{
 TCGA Database (https://portal.gdc.cancer.gov/)
-}%%  ~~ reference to a publication or URL from which the data were obtained ~~
-
+}
 \examples{
 data(Genes_coord)
-## maybe str(Genes_coord) ; plot(Genes_coord) ...
 }
 \keyword{datasets}

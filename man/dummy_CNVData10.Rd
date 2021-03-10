@@ -15,6 +15,5 @@ TCGA Database (https://portal.gdc.cancer.gov/)
 }
 \examples{
 data(dummy_CNVData10)
-## maybe str(dummy_CNVData10) ; plot(dummy_CNVData10) ...
 }
 \keyword{datasets}
