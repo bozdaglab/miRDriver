@@ -263,7 +263,6 @@ mirdirectory - a character string for the file path of the directory one wants t
 
 
 ```{r}
-options(mc.cores = 2)
 load(
     file.path(
         mirdirectory,
