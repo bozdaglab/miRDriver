@@ -150,7 +150,7 @@ x <-
             "mirDriverFold",
             "miRDriver_Step1",
             "Regionwise_Gistic_Files",
-            "Amplification Peak  7.txt"
+            "Amplification Peak  5.txt"
         ),
         sep = "\t",
         header = TRUE
@@ -190,7 +190,7 @@ x <-
             "mirDriverFold",
             "miRDriver_Step2",
             "UpDownGeneLibrary",
-            "UPgene_Amplification Peak  9.txt"
+            "UPgene_Amplification Peak  5.txt"
         ),
         sep = "",
         header = TRUE
@@ -274,7 +274,6 @@ load(
     )
 )
 gatherCisGenes(
-    ncore = 2,
     mirna_bedfile = mirna_bedfile,
     gistic_bedfile = region,
     mirdirectory = mirdirectory
@@ -335,7 +334,6 @@ mirdirectory - a character string for the file path of the directory one wants t
 
 ```{r}
 getTransGenePredictorFile(
-    ncore = 2,
     methylationData = dummy_methylationData10,
     RSeqData = dummy_RSeqData10_200,
     CNVData = dummy_CNVData10,
@@ -364,7 +362,7 @@ GenePred[1:3, ]
 
 ### <a id = "lassoParallelForTransGene"></a> lassoParallelForTransGene
 
-This function runs a LASSO regression to find what contributes to the expression of the trans gene. This type of regression eliminates non-contributors by setting their coefficient to zero. If the coeffiecient of a miRNA is non-zero after the regression finishes then it is a contributor. However, to find accurate results the regression is set to run multiple times (the user specifies with the argument *numCounter*), with a certain percentage of times needed with the coefficient to be non-zero(the user specifies this with the argument *nonZeroPercent*). The user also needs to provide the number of folds they want their regression to use. The regression is run on the TransGenePredictorFiles created by the getTransPredictorFile function. The output from this function is found in the file path ~/mirdirectory/mirDriverFold/miRDriver_RESULTS/. The mirdirectory in the file path represents the directory chosen by the user and specified in the argument, mirdirectory. The argument *mirdirectory* needs to be set to the same directory as the mirdirectory in the previous steps. 
+This function runs a LASSO regression to find what contributes to the expression of the trans gene. This type of regression eliminates non-contributors by setting their coefficient to zero. If the coeffiecient of a miRNA is non-zero after the regression finishes then it is a contributor. However, to find accurate results the regression is set to run multiple times (the user specifies with the argument *numCounter*), with a certain percentage of times needed with the coefficient to be non-zero(the user specifies this with the argument *nonZeroPercent*). The user also needs to provide the number of folds they want their regression to use. It is highly recommended that the user set *ncore* value for all the available cores. The default is set as 2. The regression is run on the TransGenePredictorFiles created by the getTransPredictorFile function. The output from this function is found in the file path ~/mirdirectory/mirDriverFold/miRDriver_RESULTS/. The mirdirectory in the file path represents the directory chosen by the user and specified in the argument, mirdirectory. The argument *mirdirectory* needs to be set to the same directory as the mirdirectory in the previous steps. 
 
 Arguments:
 
@@ -380,7 +378,6 @@ mirdirectory - a character string for the file path of the directory one wants t
 
 ```{r}
 lassoParallelForTransGene(
-    ncore = 2,
     numCounter = 6,
     Nfolds = 3,
     nonZeroPercent = 20,
@@ -450,14 +447,12 @@ makingCisAndTransGenes(
 )
 #Running the function.
 gatherCisGenes(
-    ncore = 2,
     mirna_bedfile = mirna_bedfile,
     gistic_bedfile = region,
     mirdirectory = mirdirectory
 )
 #Running the function.
 getTransGenePredictorFile(
-    ncore = 2,
     methylationData = dummy_methylationData10,
     RSeqData = dummy_RSeqData10_200,
     CNVData = dummy_CNVData10,
@@ -467,7 +462,6 @@ getTransGenePredictorFile(
 )
 #Running the function.
 lassoParallelForTransGene(
-    ncore = 2,
     numCounter = 6,
     Nfolds = 3,
     nonZeroPercent = 20,
