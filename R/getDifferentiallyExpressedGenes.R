@@ -12,32 +12,55 @@ getDifferentiallyExpressedGenes <-
       RNACount <- assay(RNACount)
     }
     
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step2",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step2",
+          fsep = .Platform$file.sep
+        )
+      )
+    }
     
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step2",
-        fsep = .Platform$file.sep
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step2",
+      "UpDownGeneLibrary",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step2",
+          "UpDownGeneLibrary",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step2",
-        "UpDownGeneLibrary",
-        fsep = .Platform$file.sep
+    }
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "ERROR_FILES",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "ERROR_FILES",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "ERROR_FILES",
-        fsep = .Platform$file.sep
-      )
-    )
+    }
     
     
     fileNames <-

@@ -8,12 +8,20 @@ lassoParallelForTransGene <-
            Nfolds = 10,
            nonZeroPercent = 70,
            mirdirectory = "~") {
-    dir.create(file.path(
+    if (!file.exists(file.path(
       mirdirectory,
       "mirDriverFold",
       "miRDriver_RESULTS",
       "LassoMinCoeff"
-    ))
+    ))) {
+      dir.create(file.path(
+        mirdirectory,
+        "mirDriverFold",
+        "miRDriver_RESULTS",
+        "LassoMinCoeff"
+      ))
+    } 
+
     processLassoCtr <- function(numCounter, Lx, Ly, gene_id) {
       tryCatch({
         cvfit <-

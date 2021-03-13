@@ -41,23 +41,40 @@ getTransGenePredictorFile <-
     }
     
     ..tf <- processEachGene <- NULL
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step4",
-        fsep = .Platform$file.sep
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step4",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step4",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step4",
-        "TransGenePredFile",
-        fsep = .Platform$file.sep
+    }
+   
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step4",
+      "TransGenePredFile",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step4",
+          "TransGenePredFile",
+          fsep = .Platform$file.sep
+        )
       )
-    )
+    } 
     
     
     processEachGene <- function(GeneFile) {

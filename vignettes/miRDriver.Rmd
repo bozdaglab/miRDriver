@@ -10,7 +10,7 @@ output:
         theme: united 
 r_packages: rmarkdown
 vignette: > 
-    %\VignetteIndexEntry{miRDriver_new} 
+    %\VignetteIndexEntry{miRDriver} 
     %\VignetteEngine{knitr::rmarkdown} 
     %\VignetteEncoding[UTF-8]{inputenc}
 ---
@@ -21,7 +21,7 @@ miRDriver is a computational tool that infers copy number aberation-bsed miRNA-g
 In the second step, for each GISTIC region miRDriver computes differentially expressed (DE) genes between frequently aberrated and non-aberrated patient groups. In the third step, miRDriver retrieves DE genes and miRNAs that reside in aberrated regions (i.e. cis genes and cis miRNAs) and retrieved DE genes that are outside of aberrated regions (i.e. trans genes). In the last step, miRDriver employes a LASSO-based regression model to compute miRNA regulators of the trans genes.
 
 
-```{r}
+```{r }
 library(miRDriver)
 ```
 
@@ -34,8 +34,8 @@ This is an R dataframe object where the data represents the genomic position of 
 
 
 ```{r}
-load(system.file("data", "miRDriverData.RData", package="miRDriver"))
-mirna_bedfile[1:5,]
+data("miRDriverData")
+mirna_bedfile[1:5, ]
 ```
 
 ## <a id = "RNA-seq-count-data"></a> RNA seq count data
@@ -49,8 +49,13 @@ Dummy_RnaSeq_Count_Data[1:5,1:3]
 This text file by the GISTIC2.0 tool. The first 9 columns  “Unique.Name, Descriptor, Wide.Peak.Limits, Peak.Limits, Region.Limits, q.values". After the first 9 columns there are sample id's with their aberration status "0", "1", "2"; "0" represents no copy number  aberration, "1" represents a low level copy number aberration, and "2" represents a high level copy number aberration.
 
 ```{r}
-x<-read.table(system.file("extdata", "Dummy.gistic.lesions.txt", package="miRDriver"), sep = "\t", header = TRUE)
-x[1:5,c(1,10:13)]
+x <-
+    read.table(
+        system.file("extdata", "Dummy.gistic.lesions.txt", package = "miRDriver"),
+        sep = "\t",
+        header = TRUE
+    )
+x[1:5, c(1, 10:13)]
 ```
 
 ## <a id = "hg38-genes-coordinate-bedfile"></a> hg38 genes coordinate bedfile
@@ -113,21 +118,45 @@ gistic_bedfile - a logical value for whether or not one wants to create a gistic
 mirdirectory - a character string for the file path of the directory one wants the results in
 
 ```{r}
-getRegionWiseGistic(gisticfile = system.file("extdata", "Dummy.gistic.lesions.txt", package="miRDriver"), gistic_bedfile = TRUE, mirdirectory = tempdir())
+mirdirectory <- tempdir()
+getRegionWiseGistic(
+    gisticfile = system.file("extdata", "Dummy.gistic.lesions.txt", package = "miRDriver"),
+    gistic_bedfile = TRUE,
+    mirdirectory = mirdirectory
+)
 ```
 
 Output: The output from this function can be found in a subdirectory of the  mirdirectory entitled mirDriverFold/miRDriver_Step1. Inside mirDriverFold/miRDriver_Step1 there is a subdirectory entitled GisticResults and a subdirectory entitled Regionwise_Gistic_Files.
 
 ```{r}
-load(file.path(tempdir(), "mirDriverFold", "miRDriver_Step1", "GisticResults", "gistic_bedfile.rda"))
-region[1:5,]
+load(
+    file.path(
+        mirdirectory,
+        "mirDriverFold",
+        "miRDriver_Step1",
+        "GisticResults",
+        "gistic_bedfile.rda"
+    )
+)
+region[1:5, ]
 
 ```
 
 ```{r}
-x <- data.frame(read.table(file.path(tempdir(), "mirDriverFold", "miRDriver_Step1", "Regionwise_Gistic_Files", "Amplification Peak  7.txt"), sep = "\t", header = TRUE))
-                
-x[1:5,]
+x <-
+    data.frame(read.table(
+        file.path(
+            mirdirectory,
+            "mirDriverFold",
+            "miRDriver_Step1",
+            "Regionwise_Gistic_Files",
+            "Amplification Peak  7.txt"
+        ),
+        sep = "\t",
+        header = TRUE
+    ))
+
+x[1:5, ]
 ```
 
 
@@ -148,14 +177,25 @@ mirdirectory - a character string for the file path of the directory one wants t
 
 
 ```{r warning=FALSE}
-getDifferentiallyExpressedGenes(RNACount = Dummy_RnaSeq_Count_Data, mirdirectory = tempdir())
+getDifferentiallyExpressedGenes(RNACount = Dummy_RnaSeq_Count_Data, mirdirectory = mirdirectory)
 ```
 
 Output: The output for this function can be found in the mirdirectory in mirDriverFold/miRDriver_Step2/UpDownGeneLibrary. These files are the intermediary files for step two.
 
 ```{r}
-x <- read.table(file.path(tempdir(), "mirDriverFold", "miRDriver_Step2", "UpDownGeneLibrary", "UPgene_Amplification Peak  9.txt"), sep = "", header = TRUE)
-x[1:3,]
+x <-
+    read.table(
+        file.path(
+            mirdirectory,
+            "mirDriverFold",
+            "miRDriver_Step2",
+            "UpDownGeneLibrary",
+            "UPgene_Amplification Peak  9.txt"
+        ),
+        sep = "",
+        header = TRUE
+    )
+x[1:3, ]
 ```
 
 
@@ -171,15 +211,36 @@ gistic_bedfile - A R dataframe object that fits the format of a bedfile for the 
 mirdirectory - a character string for the file path of the directory one wants the results in, must be the same as all previous functions
 
 ```{r}
-load(file.path(tempdir(), "mirDriverFold", "miRDriver_Step1", "GisticResults", "gistic_bedfile.rda"))
-makingCisAndTransGenes(Genes_coord_bedfile = Genes_coord, gistic_bedfile=region, mirdirectory=tempdir())
+load(
+    file.path(
+        mirdirectory,
+        "mirDriverFold",
+        "miRDriver_Step1",
+        "GisticResults",
+        "gistic_bedfile.rda"
+    )
+)
+makingCisAndTransGenes(
+    Genes_coord_bedfile = Genes_coord,
+    gistic_bedfile = region,
+    mirdirectory = mirdirectory
+)
 ```
 
 Output: The output for this function can be found in subdirectory of the  mirdirectory entitled mirDriverFold/miRDriver_Step2/Trans_Cis_Files. There is a directory with four files in it for each peak. 
 
 ```{r}
-load(file.path(tempdir(), "mirDriverFold", "miRDriver_Step2", "Trans_Cis_Files", "Amplification Peak  1", "trans_genes.Rda"))
-trans_genes[1:3,]
+load(
+    file.path(
+        mirdirectory,
+        "mirDriverFold",
+        "miRDriver_Step2",
+        "Trans_Cis_Files",
+        "Amplification Peak  1",
+        "trans_genes.Rda"
+    )
+)
+trans_genes[1:3, ]
 message("These are the trans genes")
 ```
 
@@ -202,21 +263,50 @@ mirdirectory - a character string for the file path of the directory one wants t
 
 
 ```{r}
-options(mc.cores=2)
-load(file.path(tempdir(), "mirDriverFold", "miRDriver_Step1", "GisticResults", "gistic_bedfile.rda"))
-gatherCisGenes(ncore = 2, mirna_bedfile=mirna_bedfile, gistic_bedfile=region, mirdirectory=tempdir())
+options(mc.cores = 2)
+load(
+    file.path(
+        mirdirectory,
+        "mirDriverFold",
+        "miRDriver_Step1",
+        "GisticResults",
+        "gistic_bedfile.rda"
+    )
+)
+gatherCisGenes(
+    ncore = 2,
+    mirna_bedfile = mirna_bedfile,
+    gistic_bedfile = region,
+    mirdirectory = mirdirectory
+)
 ```
 
 Output: The output for this function can be found in the mirdirectory in mirDriverFold/miRDriver_Step3. The miRNA files for each gene are in the folder gene_all_mirna and the DE cis genes for each gene are in the folder gene_all_DEcis. In this case there are no DECis genes for our output due to the dummy datasets, but the dataframes will follow the pattern of the miRNA dataframe.
 
 ```{r}
-load(file.path(tempdir(), "mirDriverFold", "miRDriver_Step3", "gene_all_DEcis", "ENSG00000036828.Rda"))
+load(
+    file.path(
+        mirdirectory,
+        "mirDriverFold",
+        "miRDriver_Step3",
+        "gene_all_DEcis",
+        "ENSG00000036828.Rda"
+    )
+)
 TC
 message("For this trans gene we do not have any cis gene")
 ```
 ```{r}
-load(file.path(tempdir(), "mirDriverFold", "miRDriver_Step3", "gene_all_mirna", "ENSG00000124205.Rda"))
-GM[1:3,]
+load(
+    file.path(
+        mirdirectory,
+        "mirDriverFold",
+        "miRDriver_Step3",
+        "gene_all_mirna",
+        "ENSG00000124205.Rda"
+    )
+)
+GM[1:3, ]
 ```
 
 
@@ -244,14 +334,30 @@ mirnaData - a dataframe for the miRNA data
 mirdirectory - a character string for the file path of the directory one wants the results in, should be the same as in previous functions
 
 ```{r}
-getTransGenePredictorFile(methylationData = dummy_methylationData10, RSeqData = dummy_RSeqData10_200,                           CNVData = dummy_CNVData10, TFData = dummy_TFData, mirnaData =                                        dummy_mirnaData10, mirdirectory = tempdir())
+getTransGenePredictorFile(
+    ncore = 2,
+    methylationData = dummy_methylationData10,
+    RSeqData = dummy_RSeqData10_200,
+    CNVData = dummy_CNVData10,
+    TFData = dummy_TFData,
+    mirnaData = dummy_mirnaData10,
+    mirdirectory = mirdirectory
+)
 ```
 
 Output: The output for this function can be found in the mirdirectory in mirDriverFold/miRDriver_Step4/TransGenePredFile.
 
 ```{r}
-load(file.path(tempdir(), "mirDriverFold", "miRDriver_Step4", "TransGenePredFile", "ENSG00000108231.Rda"))
-GenePred[1:3,]
+load(
+    file.path(
+        mirdirectory,
+        "mirDriverFold",
+        "miRDriver_Step4",
+        "TransGenePredFile",
+        "ENSG00000108231.Rda"
+    )
+)
+GenePred[1:3, ]
 ```
 
 
@@ -273,20 +379,117 @@ nonZeroPercent - an integer for the percentage of appearance as a non-zero LASSO
 mirdirectory - a character string for the file path of the directory one wants the results in
 
 ```{r}
-lassoParallelForTransGene(ncore = 2, numCounter = 10,Nfolds = 3,nonZeroPercent = 20, mirdirectory =                           tempdir())
+lassoParallelForTransGene(
+    ncore = 2,
+    numCounter = 6,
+    Nfolds = 3,
+    nonZeroPercent = 20,
+    mirdirectory =  mirdirectory
+)
 ```
 
 Output: The output for this function can be found in the mirdirectory in mirDriverFold/miRDriver_RESULTS. There is a field for each gene and its predictors in the LassoMinCoeff folder and a dataframe with the miRNA that are most significant.
 
 ```{r}
-load(file.path(tempdir(), "miRDriverFold", "miRDriver_RESULTS", "LassoMinCoeff", "ENSG00000088387.Rda"))
-min_Coeff[1:3,]
+load(
+    file.path(
+        mirdirectory,
+        "miRDriverFold",
+        "miRDriver_RESULTS",
+        "LassoMinCoeff",
+        "ENSG00000088387.Rda"
+    )
+)
+#Showing gene-miRNA interaction network with non-zero coefficients
+min_Coeff[min_Coeff$coefficients_min!=0, ][1:5,]
 ```
 
 ```{r}
-load(file.path(tempdir(), "miRDriverFold", "miRDriver_RESULTS", "Final_gene_mirna_network.Rda"))
-Final_gene_mirna_network[1:5,]
+load(
+    file.path(
+        mirdirectory,
+        "miRDriverFold",
+        "miRDriver_RESULTS",
+        "Final_gene_mirna_network.Rda"
+    )
+)
+Final_gene_mirna_network[1:5, ]
 ```
+
+
+# <a id = "Running-miRDriver-at-a-glance"></a> Running miRDriver at a glance
+```{r}
+#Load the example datasets
+data(miRDriverData)
+#Giving the directory path.
+mirdirectory <- tempdir()
+#Running the function.
+getRegionWiseGistic(
+    gisticfile = system.file("extdata", "Dummy.gistic.lesions.txt", package =
+                                 "miRDriver"),
+    gistic_bedfile = TRUE,
+    mirdirectory = mirdirectory
+)
+#Running the function.
+getDifferentiallyExpressedGenes(RNACount = Dummy_RnaSeq_Count_Data, mirdirectory = mirdirectory)
+#Load the necessary files.
+load(
+    file.path(
+        mirdirectory,
+        "mirDriverFold",
+        "miRDriver_Step1",
+        "GisticResults",
+        "gistic_bedfile.rda"
+    )
+)
+#Running the function.
+makingCisAndTransGenes(
+    Genes_coord_bedfile = Genes_coord,
+    gistic_bedfile = region,
+    mirdirectory = mirdirectory
+)
+#Running the function.
+gatherCisGenes(
+    ncore = 2,
+    mirna_bedfile = mirna_bedfile,
+    gistic_bedfile = region,
+    mirdirectory = mirdirectory
+)
+#Running the function.
+getTransGenePredictorFile(
+    ncore = 2,
+    methylationData = dummy_methylationData10,
+    RSeqData = dummy_RSeqData10_200,
+    CNVData = dummy_CNVData10,
+    TFData = dummy_TFData,
+    mirnaData = dummy_mirnaData10,
+    mirdirectory = mirdirectory
+)
+#Running the function.
+lassoParallelForTransGene(
+    ncore = 2,
+    numCounter = 6,
+    Nfolds = 3,
+    nonZeroPercent = 20,
+    mirdirectory = mirdirectory
+)
+
+#Showing final result.
+load(
+    file.path(
+        mirdirectory,
+        "miRDriverFold",
+        "miRDriver_RESULTS",
+        "LassoMinCoeff",
+        "ENSG00000088387.Rda"
+    )
+)
+#Showing gene-miRNA interaction network with non-zero coefficients
+min_Coeff[min_Coeff$coefficients_min!=0, ][1:5,]
+```
+
+
+
 
 # <a id = "Summary"></a> Summary
 

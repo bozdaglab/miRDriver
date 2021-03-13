@@ -6,26 +6,42 @@ getRegionWiseGistic <-
   function(gisticfile,
            gistic_bedfile,
            mirdirectory = "~") {
-    dir.create(file.path(mirdirectory, "mirDriverFold"))
-    dir.create(file.path(mirdirectory, "mirDriverFold", "miRDriver_Step1"))
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step1",
-        "GisticResults",
-        fsep = .Platform$file.sep
-      )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step1",
-        "Regionwise_Gistic_Files",
-        fsep = .Platform$file.sep
-      )
-    )
+    if (!file.exists(file.path(mirdirectory, "mirDriverFold"))) {
+      dir.create(file.path(mirdirectory, "mirDriverFold"))
+      
+    }
+    if (!file.exists(file.path(mirdirectory, "mirDriverFold", "miRDriver_Step1"))) {
+      dir.create(file.path(mirdirectory, "mirDriverFold", "miRDriver_Step1"))
+      
+    }
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step1",
+      "GisticResults"))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step1",
+          "GisticResults",
+          fsep = .Platform$file.sep
+        ))
+    }
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step1",
+      "Regionwise_Gistic_Files"))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step1",
+          "Regionwise_Gistic_Files",
+          fsep = .Platform$file.sep
+        ))
+    }
     
     
     Gistic_lesions <-

@@ -20,32 +20,57 @@ makingCisAndTransGenes <-
       gistic_bedfile <- assay(gistic_bedfile)
     }
     
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_RESULTS",
-        fsep = .Platform$file.sep
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_RESULTS",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_RESULTS",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step2",
-        "CIS_TRANS_FILES",
-        fsep = .Platform$file.sep
+    } 
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step2",
+      "Trans_Cis_Files",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step2",
+          "Trans_Cis_Files",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step2",
-        "Trans_Cis_Files",
-        fsep = .Platform$file.sep
+    } 
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step2",
+      "CIS_TRANS_FILES",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step2",
+          "CIS_TRANS_FILES",
+          fsep = .Platform$file.sep
+        )
       )
-    )
+    } 
     
     fileNames <-
       list.files(

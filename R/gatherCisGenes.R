@@ -22,77 +22,159 @@ gatherCisGenes <-
     }
     
     tc_de <- NULL
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step3",
-        fsep = .Platform$file.sep
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step3",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step3",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step3",
-        "transgene_w_DEcisgene",
-        fsep = .Platform$file.sep
+    } 
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step3",
+      "transgene_w_DEcisgene",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step3",
+          "transgene_w_DEcisgene",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step3",
-        "DE_GCIS",
-        fsep = .Platform$file.sep
+    } 
+    
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step3",
+      "DE_GCIS",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step3",
+          "DE_GCIS",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step3",
-        "miRNA_by_GisticRegion",
-        fsep = .Platform$file.sep
+    } 
+    
+    
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step3",
+      "miRNA_by_GisticRegion",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step3",
+          "miRNA_by_GisticRegion",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step3",
-        "Trans_Mirna_Files",
-        fsep = .Platform$file.sep
+    }
+    
+    
+    
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step3",
+      "Trans_Mirna_Files",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step3",
+          "Trans_Mirna_Files",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step3",
-        "GMIRNA",
-        fsep = .Platform$file.sep
+    }   
+    
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step3",
+      "GMIRNA",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step3",
+          "GMIRNA",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step3",
-        "gene_all_mirna",
-        fsep = .Platform$file.sep
+    } 
+    
+    
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step3",
+      "gene_all_mirna",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step3",
+          "gene_all_mirna",
+          fsep = .Platform$file.sep
+        )
       )
-    )
-    dir.create(
-      file.path(
-        mirdirectory,
-        "mirDriverFold",
-        "miRDriver_Step3",
-        "gene_all_DEcis",
-        fsep = .Platform$file.sep
+    }
+    
+    
+    
+    if (!file.exists(file.path(
+      mirdirectory,
+      "mirDriverFold",
+      "miRDriver_Step3",
+      "gene_all_DEcis",
+      fsep = .Platform$file.sep
+    ))) {
+      dir.create(
+        file.path(
+          mirdirectory,
+          "mirDriverFold",
+          "miRDriver_Step3",
+          "gene_all_DEcis",
+          fsep = .Platform$file.sep
+        )
       )
-    )
+    }
+    
     
     processGeneFiles <- function(fileName) {
       cis_genes <- NULL
@@ -224,7 +306,13 @@ gatherCisGenes <-
                   "miRDriver_Step3",
                   "DE_GCIS",
                   files$V1[i])
-      dir.create(newdir)
+      
+      if (!file.exists(newdir)) {
+        dir.create(newdir)
+      } 
+      
+      
+      
     }
     current_folder <-
       file.path(
@@ -528,7 +616,9 @@ gatherCisGenes <-
                   "miRDriver_Step3",
                   "GMIRNA",
                   files$V1[i])
-      dir.create(newdir)
+      if (!file.exists(newdir)) {
+        dir.create(newdir)
+      } 
     }
     for (i in seq_along(fileList)) {
       newlocation = unique(data.table(str_split_fixed(fileList[i], "_", 2))[, 1])$V1
