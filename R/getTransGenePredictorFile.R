@@ -3,7 +3,7 @@
 ## Created By: Banabithi Bose
 ## Date Created: 5/1/2019
 getTransGenePredictorFile <-
-  function(ncore = 2,
+  function(ncore = 1,
            methylationData,
            RSeqData,
            CNVData,

@@ -165,7 +165,7 @@ Step two of the miRDriver pipeline is to find the differentially expressed (DE) 
 
 
 ### <a id = "getDifferentiallyExpressedGenes"></a> getDifferentiallyExpressedGenes
-This function finds the differentially expressed genes based off of the peak wise files generated in the getRegionWiseGistic function and RNASeq count data. This function uses parallel computation by setting the argument value of *ncore*; the default is *ncore = 2*. The argument *RNAcount* needs to be set to the file path for the RNASeq count data. The argument *mirdirectory* needs to be the same as in all previous functions.
+This function finds the differentially expressed genes based off of the peak wise files generated in the getRegionWiseGistic function and RNASeq count data. This function uses parallel computation by setting the argument value of *ncore*; the default is *ncore = 1*. The argument *RNAcount* needs to be set to the file path for the RNASeq count data. The argument *mirdirectory* needs to be the same as in all previous functions.
 
 Arguments:
 

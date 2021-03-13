@@ -4,7 +4,7 @@
 ## Date Created: 5/1/2019
 
 gatherCisGenes <-
-  function(ncore = 2,
+  function(ncore = 1,
            mirna_bedfile,
            gistic_bedfile,
            mirdirectory = "~") {

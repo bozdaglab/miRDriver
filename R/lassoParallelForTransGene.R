@@ -3,7 +3,7 @@
 ## Created By: Banabithi Bose
 ## Date Created: 5/1/2019
 lassoParallelForTransGene <-
-  function(ncore = 2,
+  function(ncore = 1,
            numCounter = 100,
            Nfolds = 10,
            nonZeroPercent = 70,

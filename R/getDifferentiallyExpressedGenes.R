@@ -3,7 +3,7 @@
 ## Created By: Banabithi Bose
 ## Date Created: 5/1/2019
 getDifferentiallyExpressedGenes <-
-  function(ncore = 2,
+  function(ncore = 1,
            RNACount,
            mirdirectory = "~") {
     if ((is(RNACount, "data.frame")) || (is(RNACount, "matrix"))) {
