@@ -248,13 +248,11 @@ gatherCisGenes <-
       invisible(clusterEvalQ(cl, library(stringr)))
       invisible(clusterEvalQ(cl, library(plyr)))
       invisible(clusterEvalQ(cl, library(data.table)))
-      invisible(clusterEvalQ(cl, library(readr)))
       invisible(clusterEvalQ(cl, library(gsubfn)))
       invisible(clusterEvalQ(cl, library(parallel)))
       invisible(clusterEvalQ(cl, library(sqldf)))
       invisible(clusterEvalQ(cl, library(reshape)))
       invisible(clusterEvalQ(cl, library(reshape2)))
-      invisible(clusterEvalQ(cl, library(pbapply)))
       clusterExport(cl = cl, "processGeneFiles", envir = environment())
       
       fileNames <-
@@ -429,13 +427,11 @@ gatherCisGenes <-
       invisible(clusterEvalQ(cl, library(stringr)))
       invisible(clusterEvalQ(cl, library(plyr)))
       invisible(clusterEvalQ(cl, library(data.table)))
-      invisible(clusterEvalQ(cl, library(readr)))
       invisible(clusterEvalQ(cl, library(gsubfn)))
       invisible(clusterEvalQ(cl, library(parallel)))
       invisible(clusterEvalQ(cl, library(sqldf)))
       invisible(clusterEvalQ(cl, library(reshape)))
       invisible(clusterEvalQ(cl, library(reshape2)))
-      invisible(clusterEvalQ(cl, library(pbapply)))
       clusterExport(cl = cl, "processGM", envir = environment())
       GeneFileList <-
         list.files(
@@ -710,13 +706,11 @@ gatherCisGenes <-
       clusterEvalQ(cl, library(stringr))
       clusterEvalQ(cl, library(plyr))
       clusterEvalQ(cl, library(data.table))
-      clusterEvalQ(cl, library(readr))
       clusterEvalQ(cl, library(gsubfn))
       clusterEvalQ(cl, library(parallel))
       clusterEvalQ(cl, library(sqldf))
       clusterEvalQ(cl, library(reshape))
       clusterEvalQ(cl, library(reshape2))
-      clusterEvalQ(cl, library(pbapply))
       clusterExport(cl = cl, "processGM", envir = environment())
       GeneFileList <-
         list.files(file.path(
