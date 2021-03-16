@@ -4,7 +4,7 @@
 ## Date Created: 5/1/2019
 
 gatherCisGenes <-
-  function(ncore = 1,
+  function(ncore = 2,
            mirna_bedfile,
            gistic_bedfile,
            mirdirectory = "~") {
@@ -239,7 +239,7 @@ gatherCisGenes <-
         
       })
     }
-    if (ncore > 1) {
+    if (ncore > 2) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
       
@@ -420,7 +420,7 @@ gatherCisGenes <-
         
       })
     }
-    if (ncore > 1) {
+    if (ncore > 2) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
       
@@ -701,7 +701,7 @@ gatherCisGenes <-
         
       })
     }
-    if (ncore > 1) {
+    if (ncore > 2) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
       

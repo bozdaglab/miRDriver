@@ -3,7 +3,7 @@
 ## Created By: Banabithi Bose
 ## Date Created: 5/1/2019
 lassoParallelForTransGene <-
-  function(ncore = 1,
+  function(ncore = 2,
            numCounter = 100,
            Nfolds = 10,
            nonZeroPercent = 70,
@@ -135,7 +135,7 @@ lassoParallelForTransGene <-
       rm(list = ls())
       gc()
     }
-    if (ncore > 1) {
+    if (ncore > 2) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
       
