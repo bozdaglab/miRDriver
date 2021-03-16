@@ -142,15 +142,12 @@ lassoParallelForTransGene <-
       invisible(clusterEvalQ(cl, library(glmnet)))
       invisible(clusterEvalQ(cl, library(janitor)))
       invisible(clusterEvalQ(cl, library(stringr)))
-      invisible(clusterEvalQ(cl, library(plyr)))
       invisible(clusterEvalQ(cl, library(data.table)))
-      invisible(clusterEvalQ(cl, library(readr)))
       invisible(clusterEvalQ(cl, library(gsubfn)))
       invisible(clusterEvalQ(cl, library(parallel)))
       invisible(clusterEvalQ(cl, library(sqldf)))
       invisible(clusterEvalQ(cl, library(reshape)))
       invisible(clusterEvalQ(cl, library(reshape2)))
-      invisible(clusterEvalQ(cl, library(pbapply)))
       parallel::clusterExport(
         cl = cl,
         c("numCounter", "Nfolds", "processLassoCtr"),
