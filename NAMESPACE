@@ -7,8 +7,7 @@ export(
     'lassoParallelForTransGene'
 );
 
-import('plyranges',
-    'stats',
+import('stats',
     'data.table',
     'utils',
     'parallel',
@@ -17,8 +16,12 @@ import('plyranges',
     'edgeR',
     'glmnet',
     'Matrix',
-    'gsubfn'
+    'gsubfn',
+    'statmod',
+    'qpdf'
 );
+importFrom('GenomicRanges', 'GRanges')
+importFrom('plyranges', 'as_granges', 'join_overlap_intersect')
 importFrom('methods', 'is')
 importFrom('SummarizedExperiment', 'assay')
 importFrom("filesstrings", "file.move")
