@@ -390,7 +390,7 @@ Output: The output for this function can be found in the mirdirectory in mirDriv
 load(
     file.path(
         mirdirectory,
-        "miRDriverFold",
+        "mirDriverFold",
         "miRDriver_RESULTS",
         "LassoMinCoeff",
         "ENSG00000088387.Rda"
@@ -404,7 +404,7 @@ min_Coeff[min_Coeff$coefficients_min!=0, ][1:5,]
 load(
     file.path(
         mirdirectory,
-        "miRDriverFold",
+        "mirDriverFold",
         "miRDriver_RESULTS",
         "Final_gene_mirna_network.Rda"
     )

@@ -239,7 +239,7 @@ gatherCisGenes <-
         
       })
     }
-    if (ncore > 2) {
+    if (ncore > 1) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
       
@@ -420,7 +420,7 @@ gatherCisGenes <-
         
       })
     }
-    if (ncore > 2) {
+    if (ncore > 1) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
       
@@ -701,7 +701,7 @@ gatherCisGenes <-
         
       })
     }
-    if (ncore > 2) {
+    if (ncore > 1) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
       

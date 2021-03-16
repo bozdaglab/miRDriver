@@ -135,7 +135,7 @@ lassoParallelForTransGene <-
       rm(list = ls())
       gc()
     }
-    if (ncore > 2) {
+    if (ncore > 1) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
       
