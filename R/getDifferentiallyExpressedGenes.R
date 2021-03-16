@@ -3,7 +3,7 @@
 ## Created By: Banabithi Bose
 ## Date Created: 5/1/2019
 getDifferentiallyExpressedGenes <-
-  function(ncore = 1,
+  function(ncore = 2,
            RNACount,
            mirdirectory = "~") {
     if ((is(RNACount, "data.frame")) || (is(RNACount, "matrix"))) {
@@ -182,7 +182,7 @@ getDifferentiallyExpressedGenes <-
         
       })
     }
-    if (ncore > 1) {
+    if (ncore > 2) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
       

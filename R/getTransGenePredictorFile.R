@@ -3,7 +3,7 @@
 ## Created By: Banabithi Bose
 ## Date Created: 5/1/2019
 getTransGenePredictorFile <-
-  function(ncore = 1,
+  function(ncore = 2,
            methylationData,
            RSeqData,
            CNVData,
@@ -216,7 +216,7 @@ getTransGenePredictorFile <-
         
       })
     }
-    if (ncore > 1) {
+    if (ncore > 2) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
       
