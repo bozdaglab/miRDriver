@@ -19,7 +19,7 @@ Banabithi Bose
 
 load(system.file("data", "miRDriverData.RData", package = "miRDriver"))
 
-getDifferentiallyExpressedGenes(RNACount = Dummy_RnaSeq_Count_Data,
+getDifferentiallyExpressedGenes(ncore = 1, RNACount = Dummy_RnaSeq_Count_Data,
                                 mirdirectory = tempdir())
 }\value{
 Returns nothing

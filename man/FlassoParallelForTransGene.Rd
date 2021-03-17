@@ -20,7 +20,7 @@ a character string for the file path of the directory one wants the results in}
 Banabithi Bose
 }\examples{
 lassoParallelForTransGene(
-  ncore = 2,
+  ncore = 1,
   numCounter = 10,
   Nfolds = 3,
   nonZeroPercent = 20,

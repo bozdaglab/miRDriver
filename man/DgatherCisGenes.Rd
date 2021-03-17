@@ -34,7 +34,7 @@ load(
 load(system.file("data", "miRDriverData.RData", package = "miRDriver"))
 
 gatherCisGenes(
-  ncore = 2,
+  ncore = 1,
   mirna_bedfile = mirna_bedfile,
   gistic_bedfile = region,
   mirdirectory = tempdir()

@@ -30,7 +30,7 @@ Banabithi Bose
 \examples{
 load(system.file("data", "miRDriverData.RData", package = "miRDriver"))
 getTransGenePredictorFile(
-  ncore = 2,
+  ncore = 1,
   methylationData = dummy_methylationData10,
   RSeqData = dummy_RSeqData10_200,
   CNVData = dummy_CNVData10,
