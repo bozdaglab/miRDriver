@@ -177,7 +177,9 @@ mirdirectory - a character string for the file path of the directory one wants t
 
 
 ```{r warning=FALSE}
-getDifferentiallyExpressedGenes(RNACount = Dummy_RnaSeq_Count_Data, mirdirectory = mirdirectory)
+getDifferentiallyExpressedGenes(ncore = 1,
+                                RNACount = Dummy_RnaSeq_Count_Data,
+                                mirdirectory = mirdirectory)
 ```
 
 Output: The output for this function can be found in the mirdirectory in mirDriverFold/miRDriver_Step2/UpDownGeneLibrary. These files are the intermediary files for step two.
@@ -273,6 +275,7 @@ load(
     )
 )
 gatherCisGenes(
+    ncore = 1,
     mirna_bedfile = mirna_bedfile,
     gistic_bedfile = region,
     mirdirectory = mirdirectory
@@ -333,6 +336,7 @@ mirdirectory - a character string for the file path of the directory one wants t
 
 ```{r}
 getTransGenePredictorFile(
+    ncore = 1,
     methylationData = dummy_methylationData10,
     RSeqData = dummy_RSeqData10_200,
     CNVData = dummy_CNVData10,
@@ -377,6 +381,7 @@ mirdirectory - a character string for the file path of the directory one wants t
 
 ```{r}
 lassoParallelForTransGene(
+    ncore = 1,
     numCounter = 6,
     Nfolds = 3,
     nonZeroPercent = 20,
