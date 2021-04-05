@@ -423,8 +423,7 @@ Final_gene_mirna_network[1:5, ]
 ```{r}
 ##Load the example datasets
 data(miRDriverData)
-##Giving the directory path.
-mirdirectory <- tempdir()
+
 ##Running the function.
 getRegionWiseGistic(
     gisticfile = system.file("extdata", "Dummy.gistic.lesions.txt", package =
