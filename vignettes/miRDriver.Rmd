@@ -433,7 +433,7 @@ getRegionWiseGistic(
     mirdirectory = mirdirectory
 )
 ##Running the function.
-getDifferentiallyExpressedGenes(RNACount = Dummy_RnaSeq_Count_Data, mirdirectory = mirdirectory)
+getDifferentiallyExpressedGenes(ncore = 1, RNACount = Dummy_RnaSeq_Count_Data, mirdirectory = mirdirectory)
 ###Load the necessary files.
 load(
     file.path(
@@ -452,12 +452,14 @@ makingCisAndTransGenes(
 )
 ##Running the function.
 gatherCisGenes(
+    ncore = 1,
     mirna_bedfile = mirna_bedfile,
     gistic_bedfile = region,
     mirdirectory = mirdirectory
 )
 ##Running the function.
 getTransGenePredictorFile(
+    ncore = 1,
     methylationData = dummy_methylationData10,
     RSeqData = dummy_RSeqData10_200,
     CNVData = dummy_CNVData10,
@@ -467,6 +469,7 @@ getTransGenePredictorFile(
 )
 ##Running the function.
 lassoParallelForTransGene(
+    ncore = 1,
     numCounter = 10,
     Nfolds = 3,
     nonZeroPercent = 20,
