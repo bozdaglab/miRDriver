@@ -422,7 +422,7 @@ Final_gene_mirna_network[1:5, ]
 
 ```{r}
 ##Load the example datasets
-data(miRDriverData)
+#data(miRDriverData)
 
 ##Running the function.
 getRegionWiseGistic(
