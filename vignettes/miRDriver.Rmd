@@ -421,9 +421,9 @@ Final_gene_mirna_network[1:5, ]
 # <a id = " miRDriver at a glance"></a>  miRDriver at a glance
 
 ```{r}
-mirdirectory <- tempdir()
+#mirdirectory <- tempdir()
 ##Load the example datasets
-data("miRDriverData")
+#data("miRDriverData")
 
 ##Running the function.
 getRegionWiseGistic(
