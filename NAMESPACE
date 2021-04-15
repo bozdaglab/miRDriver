@@ -18,9 +18,7 @@ import('stats',
     'Matrix',
     'gsubfn',
     'statmod',
-    'qpdf',
-    'BiocGenerics', 
-    'IRanges'
+    'qpdf'
 );
 importFrom('GenomicRanges', 'GRanges')
 importFrom('plyranges', 'as_granges', 'join_overlap_intersect')
