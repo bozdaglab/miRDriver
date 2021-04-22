@@ -15,7 +15,7 @@ LazyData: false
 Imports: data.table, filesstrings, parallel, sqldf, stringr, edgeR, stats, janitor, statmod,
          glmnet, Matrix, reshape, reshape2, gsubfn, utils, SummarizedExperiment, methods, 
          GenomicRanges, plyranges, qpdf
-Depends: R (>= 4.1)
+Depends: R (>= 3.5)
 VignetteBuilder: knitr
 Suggests: BiocStyle, knitr, rmarkdown
 biocViews: GeneRegulation, GO, GeneExpression, Transcription, GeneTarget

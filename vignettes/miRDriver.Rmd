@@ -229,7 +229,7 @@ makingCisAndTransGenes(
 )
 ```
 
-Output: The output for this function can be found in subdirectory of the  mirdirectory entitled mirDriverFold/miRDriver_Step2/Trans_Cis_Files. There is a directory with four files in it for each peak. 
+Output: The output for this function can be found in subdirectory of the  mirdirectory entitled mirDriverFold/miRDriver_Step2/Trans_Cis_Files with trans_genes.Rda files under each peak/region directory.
 
 ```{r}
 load(
