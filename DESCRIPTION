@@ -1,7 +1,7 @@
 Package: miRDriver
 Type: Package
 Title: miRDriver: A Tool to Infer Copy Number Derived miRNA-Gene Networks in Cancer
-Version: 0.99.49
+Version: 0.99.50
 Date: 2020-12-07
 Authors@R: c(person("Banabithi", "Bose", email="banabithi.bose@marquette.edu", role=c("aut")),
             person("Matthew", "Moravec", email="matt.moravec222@gmail.com", role = "cre"),
@@ -17,5 +17,5 @@ Imports: data.table, filesstrings, parallel, sqldf, stringr, edgeR, stats, janit
          GenomicRanges, plyranges, qpdf
 Depends: R (>= 4.1)
 VignetteBuilder: knitr
-Suggests: BiocStyle, knitr, rmarkdown, markdown
+Suggests: BiocStyle, knitr, rmarkdown
 biocViews: GeneRegulation, GO, GeneExpression, Transcription, GeneTarget
