@@ -18,9 +18,9 @@ import('stats',
     'Matrix',
     'gsubfn',
     'statmod',
-    'qpdf',
-    'SummarizedExperiment'
-);
+    'qpdf'
+    );
+importFrom('SummarizedExperiment', 'assay')
 importFrom('GenomicRanges', 'GRanges')
 importFrom('plyranges', 'as_granges', 'join_overlap_intersect')
 importFrom('methods', 'is')
