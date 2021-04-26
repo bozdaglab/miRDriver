@@ -18,12 +18,12 @@ import('stats',
     'Matrix',
     'gsubfn',
     'statmod',
-    'qpdf'
+    'qpdf',
+    'SummarizedExperiment'
 );
 importFrom('GenomicRanges', 'GRanges')
 importFrom('plyranges', 'as_granges', 'join_overlap_intersect')
 importFrom('methods', 'is')
-importFrom('SummarizedExperiment', 'assay')
 importFrom("filesstrings", "file.move")
 importFrom("reshape", 
     "cast", 
