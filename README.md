@@ -3,4 +3,4 @@
 
 Please follow the **R folder** for the source codes.
 
-**miRDriver is under construction to be published as Bioconductor R package**
+
