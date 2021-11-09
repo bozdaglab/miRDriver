@@ -20,7 +20,6 @@ vignette: >
 miRDriver is a computational tool that infers copy number aberation-bsed miRNA-gene interactions in cancer. miRDriver has four computational steps. In the first step it finds frequently aberrated regions that have been retrieved from GISTIC2.0 tool (https://cloud.genepattern.org/). 
 In the second step, for each GISTIC region miRDriver computes differentially expressed (DE) genes between frequently aberrated and non-aberrated patient groups. In the third step, miRDriver retrieves DE genes and miRNAs that reside in aberrated regions (i.e. cis genes and cis miRNAs) and retrieved DE genes that are outside of aberrated regions (i.e. trans genes). In the last step, miRDriver employes a LASSO-based regression model to compute miRNA regulators of the trans genes.
 
-
 ```{r }
 library(miRDriver)
 ```
