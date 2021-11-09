@@ -17,3 +17,4 @@ data(miRDriverData)
 dummy_methylationData10[1:3, 1:3]
 }
 \keyword{datasets}
+

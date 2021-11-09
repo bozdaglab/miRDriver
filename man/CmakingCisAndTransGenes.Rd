@@ -35,7 +35,6 @@ makingCisAndTransGenes(
   gistic_bedfile = region,
   mirdirectory = tempdir()
 )
-
 }\value{
 Returns nothing
 }

@@ -24,7 +24,6 @@ getRegionWiseGistic(
   gistic_bedfile = TRUE,
   mirdirectory = tempdir()
 )
-
 }\value{
 Returns nothing
 }
