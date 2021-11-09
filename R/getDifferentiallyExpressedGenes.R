@@ -185,7 +185,6 @@ getDifferentiallyExpressedGenes <-
     if (ncore > 1) {
       cl <-
         makeCluster(mc <- getOption("cl.cores", ncore))
-      
       invisible(clusterEvalQ(cl, library('glmnet')))
       invisible(clusterEvalQ(cl, library(janitor)))
       invisible(clusterEvalQ(cl, library(stringr)))

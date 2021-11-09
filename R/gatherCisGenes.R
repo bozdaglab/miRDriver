@@ -2,7 +2,6 @@
 ## Code 1
 ## Created By: Banabithi Bose
 ## Date Created: 5/1/2019
-
 gatherCisGenes <-
   function(ncore = 2,
            mirna_bedfile,
