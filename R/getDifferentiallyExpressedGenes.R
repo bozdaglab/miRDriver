@@ -2,16 +2,17 @@
 ## Code 1
 ## Created By: Banabithi Bose
 ## Date Created: 5/1/2019
+
 getDifferentiallyExpressedGenes <-
   function(ncore = 2,
            RNACount,
-           mirdirectory = "~") {
+           mirdirectory = "~", DEgene = "All") {
     if ((is(RNACount, "data.frame")) || (is(RNACount, "matrix"))) {
       RNACount <- RNACount
     } else{
       RNACount <- assay(RNACount)
     }
-    
+
     if (!file.exists(file.path(
       mirdirectory,
       "mirDriverFold",
@@ -145,6 +146,9 @@ getDifferentiallyExpressedGenes <-
           sqldf("select * from allgenelist where logFC >= 1 and PValue <= 0.05")
         DNDEgene <-
           sqldf("select * from allgenelist where logFC <= -1  and PValue <= 0.05")
+        
+        ##Giving the option for UP/Down Genes
+        if (DEgene == "UP"||DEgene == "All"){
         write.table(
           UPDEgene,
           file.path(
@@ -154,7 +158,8 @@ getDifferentiallyExpressedGenes <-
             "UpDownGeneLibrary",
             paste0("UPgene_", fileNameOnly, ".txt")
           )
-        )
+        )}
+        if (DEgene == "Down"||DEgene == "All"){
         write.table(
           DNDEgene,
           file.path(
@@ -164,7 +169,7 @@ getDifferentiallyExpressedGenes <-
             "UpDownGeneLibrary",
             paste0("DOWNgene_", fileNameOnly, ".txt")
           )
-        )
+        )}
       }, error = function(error_condition) {
         cat(
           paste0(fileName, " : ", error_condition),

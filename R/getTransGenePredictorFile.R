@@ -7,7 +7,7 @@ getTransGenePredictorFile <-
            methylationData,
            RSeqData,
            CNVData,
-           TFData,
+           TFData,minConfidenceTF = 5,
            mirnaData,
            mirdirectory = "~") {
     if (is(methylationData, "SummarizedExperiment")) {
@@ -33,6 +33,10 @@ getTransGenePredictorFile <-
     } else {
       TFData <- TFData
     }
+    # Filtering TFData based on confidence score
+    
+     TFData <- TFData[TFData$Confidence >= minConfidenceTF,][,-3,drop=FALSE] 
+    
     
     if (is(mirnaData, "SummarizedExperiment")) {
       mirnaData <- assay(mirnaData)

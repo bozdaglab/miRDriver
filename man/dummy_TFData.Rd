@@ -4,9 +4,9 @@
 \title{
 dummy_TFData}
 \description{
-A R dataframe object that contains gene and transcription factor(TF) interactions. The first column, labeled as "V1" contains the genes and the second column, labeled as "TF", contains the transcription factors.}
+A R dataframe object that contains gene and transcription factor(TF) interactions with confidence score. The first column labeled as "V1", contains the genes, the second column labeled as "TF", contains the transcription factors and the third column labeled as "Confidence", contains the confidence level of the interaction.}
 \format{
-653 observations of 2 variables
+653 observations of 3 variables
 }
 \source{
 TCGA Database (https://portal.gdc.cancer.gov/)

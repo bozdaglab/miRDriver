@@ -83,10 +83,17 @@ This file is a R dataframe object. It contains the expression data fro the sampl
 dummy_RSeqData10_200[1:5,1:3]
 ```
 ## <a id = "TFData"></a> TFData
-This file is a R dataframe object that contains gene and transcription factor(TF) interactions. The first column, labeled as "V1" contains the genes and the second column, labeled as "TF", contains the transcription factors.
+This file is a R dataframe object that contains gene, transcription factor(TF)with a confidence score coulmn for their interactions. The first column, labeled as "V1" contains the genes, the second column, labeled as "TF", contains the transcription factors and the third column labeled as "Confidence". The "Confidence" column can work with any numeric values and is supposed to filter the interactions based on a minimum threshold that we set as "5" as default. If user uses our gene-TF interaction file which was curated from DoRothEA gene set resource (https://saezlab.github.io/dorothea/)for cancer-related TF-target interactions the "Confidence" score as "5" will select the highest confidence level for the interactions. If user provides their own TF-target file then they require to provide this "Confidence" column; in the case where the confidence scores are unknown, user can set all values in the column as "5" in order to run the tool.
 
 ```{r}
 dummy_TFData[1:5,]
+```
+## <a id = "Dorothea_data"></a> Dorothea_data
+This file is a R dataframe object that contains gene, transcription factor(TF)with a confidence score coulmn for their interactions from DoRothEA gene set resource (https://saezlab.github.io/dorothea/)for cancer-related TF-target interactions. DoRothEA regulons were curated and collected from different types of evidence such as literature curated resources, ChIP-seq peaks, TF binding site motifs and interactions inferred directly from gene expression. The first column, labeled as "V1" contains the genes, the second column, labeled as "TF", contains the transcription factors and the third column labeled as "Confidence". For each TF-target interaction there is a confidence level based on the number of supporting evidence. The confidence assignment comprises five levels, ranging from "5" (highest confidence) to "1" (lowest confidence). Interactions that are supported by all four lines of evidence, manually curated by experts in specific reviews, or supported both in at least two curated resources are considered to be highly reliable and were assigned an "5" level. Level "4"-"2" are reserved for curated and/or ChIP-seq interactions with different levels of additional evidence. Finally, "1" level is used for interactions that are uniquely supported by computational predictions. To provide the most confident regulon for each TF aggregated based on the TF-target interactions with the highest possible confidence score that resulted in a regulon size equal to or greater than ten targets. The final confidence level assigned to the TF regulon is the lowest confidence score of its component targets.
+
+
+```{r}
+Dorothea_data[1:5,]
 ```
 ## <a id = "methylationData"></a> methylationData
 This file is a R dataframe object. It contains the gene centric DNA methylation values for each sample. The first column labeled as "sample" contains the sample IDs. The rest of the columns are the genes with methylation values.
@@ -106,7 +113,7 @@ This function uses the lesions file to find the aberrations for each peak. The l
 
 (https://cloud.genepattern.org/gp/pages/index.jsf?lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00125:6.15.28). 
 
-If one uses GISTIC2.0 to make the lesions file, then the lesions file will be labeled all_lesions.conf_90.txt. As one can see in the example code, this file is used in the function as the argument *gisticfile*. The *gistic_bedfile* argument should be either TRUE or FALSE, representing if the user would like the function to make a gistic_bedfile. The *mirdirectory* argument needs to be the file path that the user wants the results to be in. The *mirdirectory* needs to be the same for all functions in the same analysis.
+If one uses GISTIC2.0 to make the lesions file, then the lesions file will be labeled all_lesions.conf_90.txt. As one can see in the example code, this file is used in the function as the argument *gisticfile*. The *gistic_bedfile* argument should be either TRUE or FALSE, representing if the user would like the function to make a gistic_bedfile. The *mirdirectory* argument needs to be the file path that the user wants the results to be in. The *mirdirectory* needs to be the same for all functions in the same analysis.The argument *Aber* can be set as "Amp","Del" or "All" for getting genes from amplified, deleted or from both types of GISTIC regions; the default is *Aber = "All"*.
 
 Arguments:
 
@@ -115,6 +122,8 @@ gisticfile - a character string for the file path of the GISTIC output file
 gistic_bedfile - a logical value for whether or not one wants to create a gistic_bedfile (TRUE/FALSE)
 
 mirdirectory - a character string for the file path of the directory one wants the results in
+
+aber - a character string that can be set as "Amp","Del" or "All" for getting genes from amplified, deleted or from both types of GISTIC regions; the default is *Aber = "All"*
 
 ```{r}
 mirdirectory <- tempdir()
@@ -164,7 +173,7 @@ Step two of the miRDriver pipeline is to find the differentially expressed (DE) 
 
 
 ### <a id = "getDifferentiallyExpressedGenes"></a> getDifferentiallyExpressedGenes
-This function finds the differentially expressed genes based off of the peak wise files generated in the getRegionWiseGistic function and RNASeq count data. This function uses parallel computation by setting the argument value of *ncore*; the default is *ncore = 1*. The argument *RNAcount* needs to be set to the file path for the RNASeq count data. The argument *mirdirectory* needs to be the same as in all previous functions.
+This function finds the differentially expressed genes based off of the peak wise files generated in the getRegionWiseGistic function and RNASeq count data. This function uses parallel computation by setting the argument value of *ncore*; the default is *ncore = 1*. The argument *RNAcount* needs to be set to the file path for the RNASeq count data. The argument *mirdirectory* needs to be the same as in all previous functions. The argument *DEgene* can be set as "Up","Down" or "All" for getting up regulated, down regulated or both up and down genes, respectively from the GISTIC regions; the default is *DEgene = "All"*
 
 Arguments:
 
@@ -173,6 +182,8 @@ ncore - an integer value for the number of cores user wants to use (default = 2)
 RNAcount - R dataframe object containing RNASeq count data. The rows are the genes. The columns are the sample IDs for the patients
 
 mirdirectory - a character string for the file path of the directory one wants the results in, must be the same as in all previous functions.
+
+DEgene - a character string for specifying up regulated, down regulated or both type of genes by setting "Up","Down" or "All", respectively (default = "All")
 
 
 ```{r warning=FALSE}
@@ -315,7 +326,7 @@ Step four of the miRDriver pipeline is to select potential miRNAs regulating DE 
 
 
 ### <a id = "getTransGenePredictorFile"></a> getTransGenePredictorFile
-This function creates a TransGenePredictorFile for each trans gene based on the miRNA and DE cis files from the output of the *gatherCisGenes* function and the user provided dataframes *methylationData*, *RSeqData*, *CNVData*, *TFData*, *mirnaData*. The five dataframes needed for this function are described in the example datasets section. The TransGenePredictorFiles will contain information about the possible predictors for each patient based on the data provided. The TransGenePredictorFiles will be saved in the file path ~/mirdirectory/mirDriverFold/miRDriver_Step4/TransGenePredFile/. As always mirdirectory in the file path represents the mirdirectory chosen for the analysis and should be the same as the mirdirectory used in all previous functions.
+This function creates a TransGenePredictorFile for each trans gene based on the miRNA and DE cis files from the output of the *gatherCisGenes* function and the user provided dataframes *methylationData*, *RSeqData*, *CNVData*, *TFData*, *mirnaData*. The five dataframes needed for this function are described in the example datasets section. The TransGenePredictorFiles will contain information about the possible predictors for each patient based on the data provided. The TransGenePredictorFiles will be saved in the file path ~/mirdirectory/mirDriverFold/miRDriver_Step4/TransGenePredFile/. As always mirdirectory in the file path represents the mirdirectory chosen for the analysis and should be the same as the mirdirectory used in all previous functions. For *TFData*, the "Confidence" column can work with integers or numeric values and is supposed to filter the interactions based on a minimum threshold that we set as "minConfidence = 5" as default. Here, users can provide their own TF-target interaction data or they can use the Dorothea cancer-related dataset that we have provided with this tool. For the details, please check the descriptions of the datasets.
 
 Arguments:
 
@@ -332,6 +343,8 @@ TFData - a dataframe for the transcription factor data
 mirnaData - a dataframe for the miRNA data
 
 mirdirectory - a character string for the file path of the directory one wants the results in, should be the same as in previous functions
+
+minConfidence - an integer or numeric value for the *TFData* for filtering the "Confidence" column which is supposed to filter the interactions based on a minimum threshold that we set as "minConfidence = 5" as default 
 
 ```{r}
 getTransGenePredictorFile(

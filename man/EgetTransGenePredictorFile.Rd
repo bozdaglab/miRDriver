@@ -4,7 +4,7 @@
 Creation of the trans gene predictor file
 }
 \description{
-This function creates a TransGenePredictorFile for each trans gene based on the miRNA and DE cis files from the output of the *gatherCisGenes* function and the user provided dataframes *methylationData*, *RSeqData*, *CNVData*, *TFData*, *mirnaData*. The five dataframes needed for this function are described in the example datasets section. The TransGenePredictorFiles will contain information about the possible predictors for each patient based on the data provided. The TransGenePredictorFiles will be saved in the file path ~/mirdirectory/mirDriverFold/miRDriver_Step4/TransGenePredFile/. As always mirdirectory in the file path represents the mirdirectory chosen for the analysis and should be the same as the mirdirectory used in all previous functions.
+This function creates a TransGenePredictorFile for each trans gene based on the miRNA and DE cis files from the output of the *gatherCisGenes* function and the user provided dataframes *methylationData*, *RSeqData*, *CNVData*, *TFData*, *mirnaData*. The five dataframes needed for this function are described in the example datasets section. The TransGenePredictorFiles will contain information about the possible predictors for each patient based on the data provided. The TransGenePredictorFiles will be saved in the file path ~/mirdirectory/mirDriverFold/miRDriver_Step4/TransGenePredFile/. As always mirdirectory in the file path represents the mirdirectory chosen for the analysis and should be the same as the mirdirectory used in all previous functions.For *TFData*, the "Confidence" column can work with integers or numeric values and is supposed to filter the interactions based on a minimum threshold that we set as "minConfidence = 5" as default. 
 }
 
 %- maybe also 'usage' for other objects documented here.
@@ -22,7 +22,9 @@ a dataframe for the transcription factor data
 } \item{mirnaData}{
 a dataframe for the mirna data
 }\item{mirdirectory}{
-a character string for the file path of the directory one wants the results in}
+a character string for the file path of the directory one wants the results in
+}\item{minConfidence}{
+an integer or numeric value for the *TFData* for filtering the "Confidence" column which is supposed to filter the interactions based on a minimum threshold that we set as "minConfidence = 5" as default}
 }
 \author{
 Banabithi Bose

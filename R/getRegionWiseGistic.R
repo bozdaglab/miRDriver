@@ -5,7 +5,7 @@
 getRegionWiseGistic <-
   function(gisticfile,
            gistic_bedfile,
-           mirdirectory = "~") {
+           mirdirectory = "~", Aber = "All") {
     if (!file.exists(file.path(mirdirectory, "mirDriverFold"))) {
       dir.create(file.path(mirdirectory, "mirDriverFold"))
       
@@ -46,6 +46,15 @@ getRegionWiseGistic <-
     
     Gistic_lesions <-
       read.table(gisticfile, sep = "\t", header = TRUE)
+    
+    ## Adding the options for Amp/Del/All peaks
+    if (Aber == "Amp"){
+      Gistic_lesions <- Gistic_lesions[grep("Amp", Gistic_lesions$Unique.Name, ignore.case = FALSE, perl = FALSE, value = FALSE,
+                                            fixed = FALSE, useBytes = FALSE, invert = FALSE),]
+    }else if (Aber == "Del"){
+      Gistic_lesions <- Gistic_lesions[grep("Del", Gistic_lesions$Unique.Name, ignore.case = FALSE, perl = FALSE, value = FALSE,
+                                            fixed = FALSE, useBytes = FALSE, invert = FALSE),]
+      }
     Gistic_lesions <-
       Gistic_lesions[-grep("CN values", Gistic_lesions$Unique.Name),]
     Gistic_lesions <-  Gistic_lesions[seq_len(nrow(Gistic_lesions)),]
